@@ -76,4 +76,34 @@ using Niancat.Users
         @test response isa Incorrect
         @test response.word == Word("DATORSPEL")
     end
+
+    @testset "Case-insensitivity" begin
+        @testset "Puzzle is pussgruka; User guesses PUSSGURKA; Guess is correct" begin
+            # Arrange
+            dictionary = SwedishDictionary(["pussgurka"])
+            game = NiancatGame(dictionary)
+            user = User("name")
+            gamecommand(game, user, SetPuzzle("PUSSGRUKA"))
+
+            # Act
+            response = gamecommand(game, user, Guess("PUSSGURKA"))
+
+            # Assert
+            @test response == Correct("PUSSGURKA")
+        end
+
+        @testset "Puzzle is PUSSGRUKA; User guesses pussgurka; Guess is correct" begin
+            # Arrange
+            dictionary = SwedishDictionary(["PUSSGURKA"])
+            game = NiancatGame(dictionary)
+            user = User("name")
+            gamecommand(game, user, SetPuzzle("PUSSGRUKA"))
+
+            # Act
+            response = gamecommand(game, user, Guess("pussgurka"))
+
+            # Assert
+            @test response == Correct("pussgurka")
+        end
+    end
 end

@@ -40,8 +40,7 @@ function Games.gamecommand(game::NiancatGame, ::User, setpuzzle::SetPuzzle) :: R
 end
 
 function Games.gamecommand(game::NiancatGame, ::User, guess::Guess) :: Response
-    ispuzzlematch = sort([c for c in guess.word.w]) == sort([c for c in game.puzzle])
-    if guess.word.w in game.dictionary && ispuzzlematch
+    if guess.word.w in game.dictionary && isanagram(guess.word.w, game.puzzle)
         Correct(guess.word.w)
     else
         Incorrect(guess.word.w)

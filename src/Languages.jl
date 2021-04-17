@@ -1,18 +1,34 @@
 module Languages
 
-struct SwedishDictionary
-    words::Vector{String}
-
-    SwedishDictionary(words::AbstractVector{<:String}) = new([String(w) for w in words])
-end
-
-Base.iterate(s::SwedishDictionary) = iterate(s.words)
-Base.iterate(s::SwedishDictionary, state) = iterate(s.words, state)
-
 struct Word
     w::String
 end
 
-export SwedishDictionary, Word
+function normalize(s::String) :: String
+    normword = uppercase(s)
+
+    normword
+end
+
+function sortword(s::String) :: String
+    ns = normalize(s)
+    String(sort([c for c in ns]))
+end
+
+isanagram(s1::String, s2::String) = sortword(s1) == sortword(s2)
+
+struct SwedishDictionary
+    words::Set{Word}
+
+    function SwedishDictionary(words::AbstractVector{<:String})
+        normalizedwords = [Word(normalize(w)) for w in words]
+        new(Set(normalizedwords))
+    end
+end
+
+
+Base.in(word::String, s::SwedishDictionary) = in(Word(normalize(word)), s.words)
+
+export SwedishDictionary, Word, isanagram
 
 end
