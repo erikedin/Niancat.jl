@@ -22,6 +22,12 @@ abstract type GameCommand end
 
 `gamecommand` sends a command to a given game.
 """
-gamecommand(::Game, ::User, ::GameCommand) = error("Implement this in Game subtypes")
+gamecommand(::Game, ::User, ::GameCommand) :: Response = error("Implement this in Game subtypes")
 
-export Game, Response, gamecommand
+"""
+NoResponse is an empty response object, for when a command should not respond
+with any message.
+"""
+struct NoResponse <: Response end
+
+export Game, Response, NoResponse, gamecommand

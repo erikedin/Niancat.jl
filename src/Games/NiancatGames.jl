@@ -6,23 +6,47 @@ using Niancat.Users
 import Niancat.Games: gamecommand
 
 struct SetPuzzle
-    SetPuzzle(::String) = new()
+    puzzle::String
 end
 
 struct Guess
-    Guess(::String) = new()
+    word::Word
+
+    Guess(s::String) = new(Word(s))
 end
 
 struct Incorrect <: Response
-    Incorrect(::String) = new()
+    word::Word
+
+    Incorrect(s::String) = new(Word(s))
 end
 
-struct NiancatGame <: Game
-    NiancatGame(::SwedishDictionary) = new()
+struct Correct <: Response
+    word::Word
+
+    Correct(s::String) = new(Word(s))
 end
 
-gamecommand(::NiancatGame, ::User, ::SetPuzzle) = nothing
-gamecommand(::NiancatGame, ::User, ::Guess) = Incorrect("DATORPLES")
+mutable struct NiancatGame <: Game
+    dictionary::SwedishDictionary
+    puzzle::Union{Nothing, String}
+
+    NiancatGame(d::SwedishDictionary) = new(d, nothing)
+end
+
+function Games.gamecommand(game::NiancatGame, ::User, setpuzzle::SetPuzzle) :: Response
+    game.puzzle = setpuzzle.puzzle
+    NoResponse()
+end
+
+function Games.gamecommand(game::NiancatGame, ::User, guess::Guess) :: Response
+    ispuzzlematch = sort([c for c in guess.word.w]) == sort([c for c in game.puzzle])
+    if guess.word.w in game.dictionary && ispuzzlematch
+        Correct(guess.word.w)
+    else
+        Incorrect(guess.word.w)
+    end
+end
 
 export NiancatGame
 

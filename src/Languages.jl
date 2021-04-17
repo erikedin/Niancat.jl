@@ -1,8 +1,13 @@
 module Languages
 
 struct SwedishDictionary
-    SwedishDictionary(::AbstractVector{<:String}) = new()
+    words::Vector{String}
+
+    SwedishDictionary(words::AbstractVector{<:String}) = new([String(w) for w in words])
 end
+
+Base.iterate(s::SwedishDictionary) = iterate(s.words)
+Base.iterate(s::SwedishDictionary, state) = iterate(s.words, state)
 
 struct Word
     w::String
