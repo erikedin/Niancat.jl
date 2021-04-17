@@ -1,0 +1,4 @@
+name = "Niancat"
+uuid = "c4ee8dcc-6530-4ca2-80fb-bf37c124d328"
+authors = ["Erik Edin <erikedin@users.noreply.github.com>"]
+version = "0.1.0"
