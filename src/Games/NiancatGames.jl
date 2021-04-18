@@ -15,6 +15,14 @@ struct Guess
     Guess(s::String) = new(Word(s))
 end
 
+struct GetPuzzle end
+
+struct PuzzleIs <: Response
+    puzzle::String
+end
+
+struct NoPuzzleSet <: Response end
+
 struct Incorrect <: Response
     word::Word
 
@@ -50,6 +58,14 @@ function Games.gamecommand(game::NiancatGame, ::User, setpuzzle::SetPuzzle) :: R
     end
     game.puzzle = setpuzzle.puzzle
     NewPuzzle(game.puzzle)
+end
+
+function Games.gamecommand(game::NiancatGame, ::User, getpuzzle::GetPuzzle) :: Response
+    if game.puzzle === nothing
+        NoPuzzleSet()
+    else
+        PuzzleIs(game.puzzle)
+    end
 end
 
 function Games.gamecommand(game::NiancatGame, ::User, guess::Guess) :: Response

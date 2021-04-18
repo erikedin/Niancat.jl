@@ -8,20 +8,17 @@ Feature: Setting a puzzle
             | ORDPUSSEL |
           And a new game
 
-    @wip
     Scenario: Setting and getting the puzzle
         Given a puzzle ORDPUSSLE
          When a user asks for the puzzle
          Then the puzzle response is ORDPUSSLE
     
-    @wip
     Scenario: Setting a new puzzle
         Given a puzzle ORDPUSSLE
          When the puzzle is set to DATORSPLE
           And a user asks for the puzzle
          Then the puzzle response is DATORSPLE
     
-    @wip
     Scenario: No puzzle set
         Given that no puzzle has been set
          When a user asks for the puzzle
