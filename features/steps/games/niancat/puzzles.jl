@@ -5,18 +5,6 @@ using Niancat.Games.NiancatGames
 using Niancat.Games.NiancatGames: Incorrect, Correct, Rejected
 using Niancat.Games
 
-@given("") do context
-    @fail "Implement me"
-end
-
-@when("") do context
-    @fail "Implement me"
-end
-
-@then("") do context
-    @fail "Implement me"
-end
-
 @when("the puzzle is set to {String}") do context, puzzle
     response = gamecommand(context[:game], User("name"), SetPuzzle(puzzle))
     context[:response] = response
