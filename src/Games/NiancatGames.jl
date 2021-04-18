@@ -27,6 +27,16 @@ struct Correct <: Response
     Correct(s::String) = new(Word(s))
 end
 
+struct Rejected <: Response end
+
+struct NewPuzzle <: Response
+    puzzle::String
+end
+
+struct NotAWord <: Response
+    puzzle::String
+end
+
 mutable struct NiancatGame <: Game
     dictionary::SwedishDictionary
     puzzle::Union{Nothing, String}
@@ -35,8 +45,11 @@ mutable struct NiancatGame <: Game
 end
 
 function Games.gamecommand(game::NiancatGame, ::User, setpuzzle::SetPuzzle) :: Response
+    if game.puzzle !== nothing && isanagram(game.puzzle, setpuzzle.puzzle)
+        return Rejected()
+    end
     game.puzzle = setpuzzle.puzzle
-    NoResponse()
+    NewPuzzle(game.puzzle)
 end
 
 function Games.gamecommand(game::NiancatGame, ::User, guess::Guess) :: Response
