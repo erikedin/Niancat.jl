@@ -1,13 +1,25 @@
 module Languages
 
+using Unicode
+
 struct Word
     w::String
 end
 
-function normalize(s::String) :: String
-    normword = uppercase(s)
+isinalphabet(c::Char) :: Bool = occursin(c, "abcdefghijklmnopqrstuvwxyzåäö")
+ismeaningfuldiacritic(c::Char) :: Bool = occursin(c, "åäö")
 
-    normword
+function normalizechar(c::AbstractChar) :: String
+    stripmark = !ismeaningfuldiacritic(c)
+    Unicode.normalize(string(c), stripmark=stripmark)
+end
+
+function normalize(s::String) :: String
+    lower = Unicode.normalize(s, casefold=true)
+    normalizedchars = [normalizechar(c) for c in lower]
+
+    normalizedword = join(normalizedchars)
+    filter(isinalphabet, normalizedword)
 end
 
 function sortword(s::String) :: String
