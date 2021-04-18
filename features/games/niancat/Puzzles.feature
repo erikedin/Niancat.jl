@@ -34,7 +34,6 @@ Feature: Setting a puzzle
          When the puzzle is set to ORDPUSLES
          Then it is rejected
     
-    @wip
     Scenario: Puzzle has no solutions
          When the puzzle is set to NOTAREALWORD
          Then it is rejected

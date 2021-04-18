@@ -56,6 +56,9 @@ function Games.gamecommand(game::NiancatGame, ::User, setpuzzle::SetPuzzle) :: R
     if game.puzzle !== nothing && isanagram(game.puzzle, setpuzzle.puzzle)
         return Rejected()
     end
+    if findanagrams(game.dictionary, setpuzzle.puzzle) == []
+        return Rejected()
+    end
     game.puzzle = setpuzzle.puzzle
     NewPuzzle(game.puzzle)
 end

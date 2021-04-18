@@ -54,4 +54,18 @@
         # Assert
         @test response isa Rejected
     end
+
+    @testset "Puzzle has no solutions; Rejected" begin
+        # Arrange
+        dictionary = SwedishDictionary(["ORDPUSSEL"])
+        game = NiancatGame(dictionary)
+        user = User("name")
+
+        # Act
+        response = gamecommand(game, user, SetPuzzle("DATORSPLE"))
+
+        # Assert
+        @test response isa Rejected
+
+    end
 end

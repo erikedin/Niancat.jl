@@ -31,16 +31,26 @@ isanagram(s1::String, s2::String) = sortword(s1) == sortword(s2)
 
 struct SwedishDictionary
     words::Set{Word}
+    anagrams::Dict{String, Vector{String}}
 
     function SwedishDictionary(words::AbstractVector{<:String})
-        normalizedwords = [Word(normalize(w)) for w in words]
-        new(Set(normalizedwords))
+        normalizedwords = Word[]
+        anagrams = Dict{String, Vector{String}}()
+        for w in words
+            nw = normalize(w)
+            push!(normalizedwords, Word(nw))
+
+            push!(get!(anagrams, sortword(nw), String[]), nw)
+        end
+        new(Set(normalizedwords), anagrams)
     end
 end
 
 
 Base.in(word::String, s::SwedishDictionary) = in(Word(normalize(word)), s.words)
 
-export SwedishDictionary, Word, isanagram
+findanagrams(dictionary::SwedishDictionary, s::String) = get(dictionary.anagrams, sortword(s), [])
+
+export SwedishDictionary, Word, isanagram, findanagrams
 
 end
