@@ -1,4 +1,4 @@
-using ExecutableSpecifications
+using Behavior
 using Niancat.Languages
 
 @given("that the word {String} is in the Swedish dictionary") do context, word

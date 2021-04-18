@@ -1,5 +1,5 @@
-using ExecutableSpecifications
-using ExecutableSpecifications.Gherkin
+using Behavior
+using Behavior.Gherkin
 using Niancat.Languages
 using Niancat.Games.NiancatGames
 using Niancat.Games.NiancatGames: Incorrect, Correct
