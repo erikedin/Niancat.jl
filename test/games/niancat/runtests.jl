@@ -106,4 +106,113 @@ using Niancat.Users
             @test response == Correct("pussgurka")
         end
     end
+
+    @testset "Diacritics" begin
+        @testset "Swedish Å" begin
+            # Arrange
+            dictionary = SwedishDictionary(["Å", "ÄR", "Ö"])
+            game = NiancatGame(dictionary)
+            user = User("name")
+            gamecommand(game, user, SetPuzzle("Å"))
+
+            # Act
+            response = gamecommand(game, user, Guess("Å"))
+
+            # Assert
+            @test response == Correct("Å")
+        end
+
+        @testset "Swedish Å doesn't match A" begin
+            # Arrange
+            dictionary = SwedishDictionary(["Å", "ÄR", "Ö"])
+            game = NiancatGame(dictionary)
+            user = User("name")
+            gamecommand(game, user, SetPuzzle("Å"))
+
+            # Act
+            response = gamecommand(game, user, Guess("A"))
+
+            # Assert
+            @test response isa Incorrect
+            @test response.word == Word("A")
+        end
+
+        @testset "Swedish ÄR" begin
+            # Arrange
+            dictionary = SwedishDictionary(["Å", "ÄR", "Ö"])
+            game = NiancatGame(dictionary)
+            user = User("name")
+            gamecommand(game, user, SetPuzzle("ÄR"))
+
+            # Act
+            response = gamecommand(game, user, Guess("ÄR"))
+
+            # Assert
+            @test response == Correct("ÄR")
+        end
+
+        @testset "Swedish ÄR doesn't match AR" begin
+            # Arrange
+            dictionary = SwedishDictionary(["Å", "ÄR", "Ö"])
+            game = NiancatGame(dictionary)
+            user = User("name")
+            gamecommand(game, user, SetPuzzle("ÄR"))
+
+            # Act
+            response = gamecommand(game, user, Guess("AR"))
+
+            # Assert
+            @test response isa Incorrect
+            @test response.word == Word("AR")
+        end
+
+        @testset "Swedish Ö" begin
+            # Arrange
+            dictionary = SwedishDictionary(["Å", "ÄR", "Ö"])
+            game = NiancatGame(dictionary)
+            user = User("name")
+            gamecommand(game, user, SetPuzzle("Ö"))
+
+            # Act
+            response = gamecommand(game, user, Guess("Ö"))
+
+            # Assert
+            @test response == Correct("Ö")
+        end
+
+        @testset "Swedish Ö doesn't match O" begin
+            # Arrange
+            dictionary = SwedishDictionary(["Å", "ÄR", "Ö"])
+            game = NiancatGame(dictionary)
+            user = User("name")
+            gamecommand(game, user, SetPuzzle("Ö"))
+
+            # Act
+            response = gamecommand(game, user, Guess("O"))
+
+            # Assert
+            @test response isa Incorrect
+            @test response.word == Word("O")
+        end
+
+    end
+
+    @testset "Non-alphabetic characters" begin
+        withnonalpha = ["DATOR-SPEL", "DATOR SPEL", "DATOR_SPEL", "DATORSPEL:"]
+        for word in withnonalpha
+            @testset "Word $word matches puzzle DATORSPLE" begin
+                # Arrange
+                dictionary = SwedishDictionary(["DATORSPEL"])
+                game = NiancatGame(dictionary)
+                user = User("name")
+                gamecommand(game, user, SetPuzzle("DATORSPLE"))
+
+                # Act
+                response = gamecommand(game, user, Guess(word))
+
+                # Assert
+                @test response == Correct(word)
+            end
+        end
+    end
 end

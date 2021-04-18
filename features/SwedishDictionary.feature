@@ -38,7 +38,7 @@ Feature: Swedish Dictionary
             | ÄR        | är          |
             | Ö         | ö           |
 
-    Scenario Outline: Non-alphanumeric characters
+    Scenario Outline: Non-alphabetic characters
         Given that the word PUSSGURKA is in the Swedish dictionary
          When a look-up of the word with spelling <alternative> is made
          Then it is found in the dictionary
