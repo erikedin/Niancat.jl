@@ -2,6 +2,7 @@ module Niancat
 
 include("Languages.jl")
 include("Users.jl")
+include("Scores.jl")
 
 module Games
 include("Games/Games.jl")
