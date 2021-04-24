@@ -7,8 +7,6 @@ using Tables
 struct Score
     key::String
     value::Int
-
-    Score(key::String) = new(key, 1)
 end
 
 struct ScoresDatabase
