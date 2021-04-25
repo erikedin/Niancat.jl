@@ -27,7 +27,7 @@ Table name: `users`
 
 Columns:
 - `id`
-- `user_id`
+- `team_user_id`
 - `team_id`
 - `display_name`
 
