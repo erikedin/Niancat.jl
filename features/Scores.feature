@@ -1,4 +1,4 @@
-@scores
+@wip
 Feature: Scores
 
     Background: Score persistence

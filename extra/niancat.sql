@@ -6,7 +6,7 @@ CREATE TABLE teams
     created_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO teams (team_name, icon) VALUES("default", "");
+INSERT INTO teams (team_id, team_name, icon) VALUES(1, "default", "");
 
 CREATE TABLE games
 (
@@ -19,7 +19,9 @@ CREATE TABLE users
     user_id         INTEGER PRIMARY KEY,
     team_user_id    TEXT NOT NULL,
     team_id         INTEGER NOT NULL    REFERENCES teams(team_id),
-    display_name    TEXT NOT NULL
+    display_name    TEXT NOT NULL,
+    UNIQUE(team_user_id, team_id),
+    UNIQUE(team_id, display_name)
 );
 
 CREATE TABLE scores
@@ -31,6 +33,5 @@ CREATE TABLE scores
     score_key   TEXT NOT NULL,
     points      FLOAT NOT NULL,
     timestamp   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
     UNIQUE(game_id, user_id, round, score_key)
 );

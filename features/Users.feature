@@ -1,7 +1,16 @@
+@wip @users
 Feature: Users
 
-    Scenario: Users on different teams with the same name
-        Given a user Pamela in team Foo
-          And a user Pamela in team Bar
-         When the users are compared
-         Then they are considered different
+    Background: A database exists
+        Given a Niancat database
+    
+    Scenario: Unique user ids
+        Given a user Erik
+          And a user Jenna
+         Then Erik and Jenna have different user ids
+
+    Scenario: Fetch a user
+        Given a user Erik
+          And a user Jenna
+         When fetching a user Erik
+         Then the user id for Erik matches the id when created

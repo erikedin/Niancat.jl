@@ -2,6 +2,6 @@ using Behavior
 using Niancat
 using Test
 
-include("games/niancat/runtests.jl")
+#include("games/niancat/runtests.jl")
 
-@test runspec(pkgdir(Niancat), tags = "@scores")
+@test runspec(pkgdir(Niancat), tags = "@users")

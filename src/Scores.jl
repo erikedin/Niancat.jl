@@ -1,5 +1,6 @@
 module Scores
 
+using Niancat
 using Niancat.Users
 using SQLite
 using Tables
@@ -16,12 +17,21 @@ struct ScoresDatabase
 end
 
 function initialize!(scoresdb::ScoresDatabase)
-    SQLite.createtable!(scoresdb.db, "scores", Tables.Schema(("username", "key", "score"), (String, String, Int)))
-    SQLite.createindex!(scoresdb.db, "scores", "scoreskey", "key")
+    sqlscript = read(joinpath(pkgdir(Niancat), "extra", "niancat.sql"), String)
+    stms = split(sqlscript, "\n\n")
+    for stm in stms
+        DBInterface.execute(scoresdb.db, stm)
+    end
+
+    println("Tables: ", SQLite.tables(scoresdb.db))
 end
 
 function recordscore!(scoresdb::ScoresDatabase, user::User, score::Score)
-    DBInterface.execute(scoresdb.db, "INSERT OR IGNORE INTO scores VALUES(?, ?, ?);", (user.userid, score.key, score.value))
+    sql = """INSERT OR IGNORE INTO
+        scores (game_id, user_id, round, score_key, points)
+        VALUES(?, ?, ?, ?, ?);
+    """
+    DBInterface.execute(scoresdb.db, sql, (score.gameid, user.userid, score.round, score.key, score.value))
 end
 
 function userscore(scoresdb::ScoresDatabase, user::User) :: Int
