@@ -16,6 +16,12 @@ end
     context[:db] = db
 end
 
+@given("a team {String}") do context, teamname
+    db = context[:db]
+
+    addteam(db, teamname, string(first(teamname)))
+end
+
 @given("a user {String}") do context, name
     db = context[:db]
 
@@ -25,10 +31,27 @@ end
     users[name] = user
 end
 
+@given("a user/team {String} in team {String}") do context, name, teamname
+    db = context[:db]
+
+    user = getuser(db, teamname, name)
+
+    users = getordefault(context, :users, Dict{String, User}())
+    users[name] = user
+end
+
 @when("fetching a user {String}") do context, name
     db = context[:db]
 
     user = getuser(db, Persistence.DEFAULT_TEAM, name)
+
+    context[:fetcheduser] = user
+end
+
+@when("fetching a user/team {String} in team {String}") do context, name, teamname
+    db = context[:db]
+
+    user = getuser(db, teamname, name)
 
     context[:fetcheduser] = user
 end

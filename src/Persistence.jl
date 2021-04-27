@@ -22,21 +22,46 @@ struct ServiceDatabase
     end
 end
 
-const DEFAULT_TEAM = 1
+const DEFAULT_TEAM = "default"
 
-function getuser(svcdb::ServiceDatabase, teamid::Int, userid::String) :: User
-    sql = "INSERT OR IGNORE INTO users (team_user_id, team_id, display_name) VALUES (?, ?, ?)"
+function getuser(svcdb::ServiceDatabase, teamname::String, userid::String) :: User
+    sql = """
+    INSERT OR IGNORE INTO users
+        (team_user_id, team_id, display_name)
+    VALUES
+        (?,
+         (SELECT team_id FROM teams WHERE team_name = ?),
+         ?);
+    """
 
-    DBInterface.execute(svcdb.db, sql, (userid, teamid, userid))
+    DBInterface.execute(svcdb.db, sql, (userid, teamname, userid))
 
-    results = DBInterface.execute(svcdb.db, "SELECT user_id FROM users WHERE team_id = ? AND team_user_id = ?;", (teamid, userid))
+    getsql = """
+    SELECT users.user_id, users.team_id, teams.icon
+    FROM users JOIN teams ON users.team_id = teams.team_id
+    WHERE
+        users.team_user_id = ? AND
+        teams.team_name = ?;
+    """
+
+    results = DBInterface.execute(svcdb.db, getsql, (userid, teamname))
     row = first(results)
 
-    databaseid = row[1]
+    userdatabaseid = row[1]
+    teamdatabaseid = row[2]
+    teamicon = row[3]
+    team = Team(teamdatabaseid, teamname, teamicon)
 
-    User(databaseid, userid)
+    User(userdatabaseid, userid, team)
 end
 
-export ServiceDatabase, getuser
+function addteam(svcdb::ServiceDatabase, teamname::String, icon::String)
+    sql = """
+    INSERT INTO teams (team_name, icon) VALUES (?, ?)
+    """
+    DBInterface.execute(svcdb.db, sql, (teamname, icon))
+end
+
+export ServiceDatabase, getuser, addteam
 
 end
