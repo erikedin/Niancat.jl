@@ -62,6 +62,13 @@ function addteam(svcdb::ServiceDatabase, teamname::String, icon::String)
     DBInterface.execute(svcdb.db, sql, (teamname, icon))
 end
 
-export ServiceDatabase, getuser, addteam
+function addgame(svcdb::ServiceDatabase, gamename::String)
+    sql = """
+    INSERT INTO games (game_name) VALUES (?)
+    """
+    DBInterface.execute(svcdb.db, sql, (gamename,))
+end
+
+export ServiceDatabase, getuser, addteam, addgame
 
 end

@@ -14,6 +14,8 @@ CREATE TABLE games
     game_name   TEXT NOT NULL UNIQUE
 );
 
+INSERT INTO games (game_id, game_name) VALUES (1, "Niancat");
+
 CREATE TABLE users
 (
     user_id         INTEGER PRIMARY KEY,

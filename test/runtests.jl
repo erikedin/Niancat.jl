@@ -4,4 +4,4 @@ using Test
 
 #include("games/niancat/runtests.jl")
 
-@test runspec(pkgdir(Niancat), tags = "@users")
+@test runspec(pkgdir(Niancat), tags = "@wip")

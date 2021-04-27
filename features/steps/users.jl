@@ -29,6 +29,7 @@ end
 
     users = getordefault(context, :users, Dict{String, User}())
     users[name] = user
+    context[:user] = user
 end
 
 @given("a user/team {String} in team {String}") do context, name, teamname
@@ -38,6 +39,7 @@ end
 
     users = getordefault(context, :users, Dict{String, User}())
     users[name] = user
+    context[:user] = user
 end
 
 @when("fetching a user {String}") do context, name
