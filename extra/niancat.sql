@@ -1,8 +1,18 @@
+CREATE TABLE instances
+(
+    instance_id     INTEGER PRIMARY KEY,
+    instance_name   TEXT NOT NULL UNIQUE,
+    created_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO instances (instance_id, instance_name) VALUES (1, "defaultinstance");
+
 CREATE TABLE teams
 (
     team_id     INTEGER PRIMARY KEY,
     team_name   TEXT NOT NULL UNIQUE,
     icon        TEXT NOT NULL UNIQUE,
+    instance_id INTEGER NOT NULL    REFERENCES instances(instance_id),
     created_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -15,6 +25,15 @@ CREATE TABLE games
 );
 
 INSERT INTO games (game_id, game_name) VALUES (1, "Niancat");
+
+CREATE TABLE gameinstances
+(
+    game_instance_id    INTEGER PRIMARY KEY,
+    game_id             INTEGER NOT NULL    REFERENCES games(game_id),
+    instance_id         INTEGER NOT NULL    REFERENCES instances(instance_id),
+    game_state          TEXT NOT NULL,
+    UNIQUE(game_id, instance_id)
+);
 
 CREATE TABLE users
 (
