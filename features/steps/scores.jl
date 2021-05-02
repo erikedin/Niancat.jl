@@ -53,7 +53,7 @@ end
     user = context[:user]
 
     instanceid = getinstanceid(context, "Niancat")
-    fakegame = FakeGame(instanceid, "")
+    fakegame = FakeGame(instanceid, "round1")
 
     scoreboard = getscoreboard(scoresdb, fakegame)
     @expect userscore(scoreboard, user) == score
@@ -87,7 +87,8 @@ end
     user = users[username]
 
     instanceid = getinstanceid(context, gamename)
-    fakegame = FakeGame(instanceid, "")
+    fakegame = FakeGame(instanceid, "round1")
+    println("Getting scoreboard for instance id $instanceid")
     scoreboard = getscoreboard(db, fakegame)
     @expect userscore(scoreboard, user) == points
 end

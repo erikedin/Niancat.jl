@@ -55,6 +55,28 @@ function getuser(svcdb::ServiceDatabase, teamname::String, userid::String) :: Us
     User(userdatabaseid, userid, team)
 end
 
+function getexistingusers(svcdb::ServiceDatabase, userids::AbstractVector{Int}) :: Vector{User}
+    builduser = row -> begin
+        teamdatabaseid = row[:team_id]
+        teamname = row[:team_name]
+        teamicon = row[:icon]
+        team = Team(teamdatabaseid, teamname, teamicon)
+
+        userdatabaseid = row[:user_id]
+        teamuserid = row[:team_user_id]
+
+        User(userdatabaseid, teamuserid, team)
+    end
+    sql = """
+        SELECT users.user_id, users.team_user_id, teams.team_id, teams.team_name, teams.icon
+        FROM users JOIN teams ON users.team_id = teams.team_id
+        WHERE users.user_id IN (1,2)
+    """
+    results = DBInterface.execute(svcdb.db, sql)
+
+    [builduser(row) for row in results]
+end
+
 function addteam(svcdb::ServiceDatabase, teamname::String, icon::String, instancename::String)
     sql = """
     INSERT INTO teams (team_name, icon, instance_id)
@@ -70,6 +92,6 @@ function addgame(svcdb::ServiceDatabase, gamename::String)
     DBInterface.execute(svcdb.db, sql, (gamename,))
 end
 
-export ServiceDatabase, getuser, addteam, addgame
+export ServiceDatabase, getuser, addteam, addgame, getexistingusers
 
 end

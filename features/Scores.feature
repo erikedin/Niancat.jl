@@ -7,6 +7,7 @@ Feature: Scores
             | Quux  |
             | Fnord |
 
+    @prototype
     Scenario: Scoring a point
         Given a user Erik
          When the user scores 1 point

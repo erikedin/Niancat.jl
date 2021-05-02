@@ -15,7 +15,7 @@ struct Score
 end
 
 struct Scoreboard
-    scores::Dict{User, Int}
+    scores::Dict{User, Float32}
 end
 
 function recordscore!(scoresdb::ServiceDatabase, user::User, score::Score)
@@ -30,13 +30,25 @@ end
 
 function getscoreboard(svcdb::ServiceDatabase, game::Game) :: Scoreboard
     sql = """
-    SELECT SUM(scores.points)
+    SELECT scores.user_id, SUM(scores.points) AS score
     FROM scores
     WHERE scores.game_instance_id = ?
       AND scores.round = ?
-    GROUP BY scores.user_id
+    GROUP BY scores.user_id;
     """
-    DBInterface.execute(svcdb.db, sql, (gameinstanceid(game), gameround(game)))
+    results = DBInterface.execute(svcdb.db, sql, (gameinstanceid(game), gameround(game)))
+
+    scoresbyid = Dict{Int, Float32}(
+        [row[:user_id] => row[:score]
+         for row in results])
+    users = getexistingusers(svcdb, collect(keys(scoresbyid)))
+
+    scores = Dict{User, Float32}(
+        user => scoresbyid[user.databaseid]
+        for user in users
+    )
+
+    Scoreboard(scores)
 end
 
 function userscore(scoreboard::Scoreboard, user::User) :: Int
