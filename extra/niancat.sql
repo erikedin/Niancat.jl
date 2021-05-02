@@ -35,6 +35,11 @@ CREATE TABLE gameinstances
     UNIQUE(game_id, instance_id)
 );
 
+INSERT INTO gameinstances
+    (game_instance_id, game_id, instance_id, game_state)
+VALUES
+    (1, 1, 1, "");
+
 CREATE TABLE users
 (
     user_id         INTEGER PRIMARY KEY,
@@ -47,12 +52,12 @@ CREATE TABLE users
 
 CREATE TABLE scores
 (
-    score_id    INTEGER PRIMARY KEY,
-    game_id     INTEGER NOT NULL    REFERENCES games(game_id),
-    user_id     INTEGER NOT NULL    REFERENCES users(user_id),
-    round       TEXT NOT NULL,
-    score_key   TEXT NOT NULL,
-    points      FLOAT NOT NULL,
-    timestamp   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    score_id            INTEGER PRIMARY KEY,
+    game_instance_id    INTEGER NOT NULL    REFERENCES gamesinstances(game_instance_id),
+    user_id             INTEGER NOT NULL    REFERENCES users(user_id),
+    round               TEXT NOT NULL,
+    score_key           TEXT NOT NULL,
+    points              FLOAT NOT NULL,
+    timestamp           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(game_id, user_id, round, score_key)
 );

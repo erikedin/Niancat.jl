@@ -3,7 +3,8 @@ module NiancatGames
 using Niancat.Games
 using Niancat.Languages
 using Niancat.Users
-import Niancat.Games: gamecommand
+using UUIDs
+import Niancat.Games: gamecommand, gameinstanceid, gameround
 
 struct SetPuzzle
     puzzle::String
@@ -46,11 +47,16 @@ struct NotAWord <: Response
 end
 
 mutable struct NiancatGame <: Game
+    gameinstanceid::Int
     dictionary::SwedishDictionary
     puzzle::Union{Nothing, String}
+    round::UUID
 
-    NiancatGame(d::SwedishDictionary) = new(d, nothing)
+    NiancatGame(d::SwedishDictionary) = new(1, d, nothing, uuid4())
 end
+
+Games.gameround(game::NiancatGame) :: String = string(game.round)
+Games.gameinstanceid(game::NiancatGame) :: Int = game.gameinstanceid
 
 function Games.gamecommand(game::NiancatGame, ::User, setpuzzle::SetPuzzle) :: Response
     if game.puzzle !== nothing && isanagram(game.puzzle, setpuzzle.puzzle)

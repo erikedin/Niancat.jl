@@ -32,7 +32,8 @@ end
     scoresdb = context[:db]
     user = context[:user]
 
-    @expect userscore(scoresdb, user) == score
+    scoreboard = getscoreboard(scoresdb, "Niancat")
+    @expect userscore(scoreboard, user) == score
 end
 
 @when("{String} scores {Int} points in game {String}") do context, username, points, gamename
@@ -41,6 +42,15 @@ end
     user = users[username]
 
     score = Score(gamename, "round1", "defaultkey", points)
+    recordscore!(db, user, score)
+end
+
+@when("{String} scores {Int} points in round {Int}") do context, username, points, round
+    db = context[:db]
+    users = context[:users]
+    user = users[username]
+
+    score = Score("Niancat", "$round", "defaultkey", points)
     recordscore!(db, user, score)
 end
 
