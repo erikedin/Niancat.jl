@@ -1,3 +1,5 @@
+module AbstractGame
+
 using Niancat.Users
 
 """
@@ -45,3 +47,5 @@ The database id for this instance of the game.
 gameinstanceid(::Game) :: Int = error("Implement this in Game subtypes")
 
 export Game, Response, NoResponse, gamecommand, gameround, gameinstanceid
+
+end

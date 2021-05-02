@@ -1,14 +1,14 @@
 module Scores
 
 using Niancat
+using Niancat.AbstractGame
 using Niancat.Users
 using Niancat.Persistence
-using Niancat.Games
 using SQLite
 using Tables
 
 struct Score
-    gamename::String
+    gameinstanceid::Int
     round::String
     key::String
     value::Int
@@ -21,10 +21,11 @@ end
 function recordscore!(scoresdb::ServiceDatabase, user::User, score::Score)
     sql = """
     INSERT OR IGNORE INTO scores
-        (game_id, user_id, round, score_key, points)
+        (game_instance_id, user_id, round, score_key, points)
     VALUES (?, ?, ?, ?, ?);
     """
-    DBInterface.execute(scoresdb.db, sql, (score.gamename, user.databaseid, score.round, score.key, score.value))
+
+    DBInterface.execute(scoresdb.db, sql, (score.gameinstanceid, user.databaseid, score.round, score.key, score.value))
 end
 
 function getscoreboard(svcdb::ServiceDatabase, game::Game) :: Scoreboard

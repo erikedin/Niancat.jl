@@ -1,10 +1,10 @@
 module NiancatGames
 
-using Niancat.Games
+using Niancat.AbstractGame
 using Niancat.Languages
 using Niancat.Users
 using UUIDs
-import Niancat.Games: gamecommand, gameinstanceid, gameround
+import Niancat.Core: gamecommand, gameinstanceid, gameround
 
 struct SetPuzzle
     puzzle::String
@@ -55,10 +55,10 @@ mutable struct NiancatGame <: Game
     NiancatGame(d::SwedishDictionary) = new(1, d, nothing, uuid4())
 end
 
-Games.gameround(game::NiancatGame) :: String = string(game.round)
-Games.gameinstanceid(game::NiancatGame) :: Int = game.gameinstanceid
+AbstractGame.gameround(game::NiancatGame) :: String = string(game.round)
+AbstractGame.gameinstanceid(game::NiancatGame) :: Int = game.gameinstanceid
 
-function Games.gamecommand(game::NiancatGame, ::User, setpuzzle::SetPuzzle) :: Response
+function AbstractGame.gamecommand(game::NiancatGame, ::User, setpuzzle::SetPuzzle) :: Response
     if game.puzzle !== nothing && isanagram(game.puzzle, setpuzzle.puzzle)
         return Rejected()
     end
@@ -69,7 +69,7 @@ function Games.gamecommand(game::NiancatGame, ::User, setpuzzle::SetPuzzle) :: R
     NewPuzzle(game.puzzle)
 end
 
-function Games.gamecommand(game::NiancatGame, ::User, getpuzzle::GetPuzzle) :: Response
+function AbstractGame.gamecommand(game::NiancatGame, ::User, getpuzzle::GetPuzzle) :: Response
     if game.puzzle === nothing
         NoPuzzleSet()
     else
@@ -77,7 +77,7 @@ function Games.gamecommand(game::NiancatGame, ::User, getpuzzle::GetPuzzle) :: R
     end
 end
 
-function Games.gamecommand(game::NiancatGame, ::User, guess::Guess) :: Response
+function AbstractGame.gamecommand(game::NiancatGame, ::User, guess::Guess) :: Response
     if guess.word.w in game.dictionary && isanagram(guess.word.w, game.puzzle)
         Correct(guess.word.w)
     else

@@ -35,10 +35,8 @@ CREATE TABLE gameinstances
     UNIQUE(game_id, instance_id)
 );
 
-INSERT INTO gameinstances
-    (game_instance_id, game_id, instance_id, game_state)
-VALUES
-    (1, 1, 1, "");
+INSERT INTO gameinstances (game_instance_id, game_id, instance_id, game_state)
+VALUES (1, 1, 1, "");
 
 CREATE TABLE users
 (
@@ -59,5 +57,5 @@ CREATE TABLE scores
     score_key           TEXT NOT NULL,
     points              FLOAT NOT NULL,
     timestamp           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(game_id, user_id, round, score_key)
+    UNIQUE(game_instance_id, user_id, round, score_key)
 );
