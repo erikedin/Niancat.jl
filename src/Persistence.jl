@@ -55,11 +55,12 @@ function getuser(svcdb::ServiceDatabase, teamname::String, userid::String) :: Us
     User(userdatabaseid, userid, team)
 end
 
-function addteam(svcdb::ServiceDatabase, teamname::String, icon::String)
+function addteam(svcdb::ServiceDatabase, teamname::String, icon::String, instancename::String)
     sql = """
-    INSERT INTO teams (team_name, icon) VALUES (?, ?)
+    INSERT INTO teams (team_name, icon, instance_id)
+    VALUES (?, ?, (SELECT instance_id FROM instances WHERE instance_name = ?))
     """
-    DBInterface.execute(svcdb.db, sql, (teamname, icon))
+    DBInterface.execute(svcdb.db, sql, (teamname, icon, instancename))
 end
 
 function addgame(svcdb::ServiceDatabase, gamename::String)

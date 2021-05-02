@@ -42,5 +42,5 @@ function userscore(scoresdb::ServiceDatabase, user::User) :: Int
     row[1]
 end
 
-export recordscore!, userscore, Score, initialize!
+export recordscore!, userscore, Score, initialize!, getscoreboard
 end

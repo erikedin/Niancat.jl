@@ -19,7 +19,7 @@ end
 @given("a team {String}") do context, teamname
     db = context[:db]
 
-    addteam(db, teamname, string(first(teamname)))
+    addteam(db, teamname, string(first(teamname)), "defaultinstance")
 end
 
 @given("a user {String}") do context, name
