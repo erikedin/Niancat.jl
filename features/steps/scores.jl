@@ -75,20 +75,43 @@ end
     users = context[:users]
     user = users[username]
 
-    instanceid = getinstanceid(context, gamename)
-    score = Score(instanceid, "$round", "defaultkey", points)
+    instanceid = getinstanceid(context, "Niancat")
+    score = Score(instanceid, "round$round", "defaultkey", points)
 
     recordscore!(db, user, score)
 end
 
-@then("{String} has score {Int} on the scoreboard for {String}") do context, username, points, gamename
+@then("{String} has score {Int} on the scoreboard for game {String}") do context, username, points, gamename
     db = context[:db]
     users = context[:users]
     user = users[username]
 
     instanceid = getinstanceid(context, gamename)
     fakegame = FakeGame(instanceid, "round1")
-    println("Getting scoreboard for instance id $instanceid")
     scoreboard = getscoreboard(db, fakegame)
+
     @expect userscore(scoreboard, user) == points
+end
+
+@then("{String} has score {Int} on the scoreboard for round {Int}") do context, username, points, round
+    db = context[:db]
+    users = context[:users]
+    user = users[username]
+
+    instanceid = getinstanceid(context, "Niancat")
+    fakegame = FakeGame(instanceid, "round$round")
+    scoreboard = getscoreboard(db, fakegame)
+
+    @expect userscore(scoreboard, user) == points
+end
+
+@when("{String} scores {Int} points with key {String} in round {Int}") do context, username, points, scorekey, round
+    db = context[:db]
+    users = context[:users]
+    user = users[username]
+
+    instanceid = getinstanceid(context, "Niancat")
+    score = Score(instanceid, "round$round", scorekey, points)
+
+    recordscore!(db, user, score)
 end

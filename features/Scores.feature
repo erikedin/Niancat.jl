@@ -1,4 +1,3 @@
-@wip
 Feature: Scores
 
     Background: Score persistence
@@ -7,7 +6,6 @@ Feature: Scores
             | Quux  |
             | Fnord |
 
-    @prototype
     Scenario: Scoring a point
         Given a user Erik
          When the user scores 1 point
@@ -29,8 +27,8 @@ Feature: Scores
         Given a user Erik
          When Erik scores 3 points in game Quux
           And Erik scores 7 points in game Fnord
-         Then Erik has score 3 on the scoreboard for Quux
-          And Erik has score 7 on the scoreboard for Fnord
+         Then Erik has score 3 on the scoreboard for game Quux
+          And Erik has score 7 on the scoreboard for game Fnord
     
     Scenario: Scores for different rounds
         Given a user Erik
@@ -41,6 +39,6 @@ Feature: Scores
 
     Scenario: Scores for the same round
         Given a user Erik
-         When Erik scores 3 points in round 1
-          And Erik scores 11 points in round 1
+         When Erik scores 3 points with key A in round 1
+          And Erik scores 11 points with key B in round 1
          Then Erik has score 14 on the scoreboard for round 1

@@ -1,4 +1,4 @@
-@wip @users
+@users
 Feature: Users
 
     Background: A database exists
