@@ -1,3 +1,5 @@
+module Gameface
+
 using Niancat.Users
 
 """
@@ -31,3 +33,5 @@ with any message.
 struct NoResponse <: Response end
 
 export Game, Response, NoResponse, gamecommand
+
+end

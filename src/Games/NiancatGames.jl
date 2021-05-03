@@ -1,9 +1,9 @@
 module NiancatGames
 
-using Niancat.Games
+using Niancat.Gameface
 using Niancat.Languages
 using Niancat.Users
-import Niancat.Games: gamecommand
+import Niancat.Gameface: gamecommand
 
 struct SetPuzzle
     puzzle::String
@@ -52,7 +52,7 @@ mutable struct NiancatGame <: Game
     NiancatGame(d::SwedishDictionary) = new(d, nothing)
 end
 
-function Games.gamecommand(game::NiancatGame, ::User, setpuzzle::SetPuzzle) :: Response
+function Gameface.gamecommand(game::NiancatGame, ::User, setpuzzle::SetPuzzle) :: Response
     if game.puzzle !== nothing && isanagram(game.puzzle, setpuzzle.puzzle)
         return Rejected()
     end
@@ -63,7 +63,7 @@ function Games.gamecommand(game::NiancatGame, ::User, setpuzzle::SetPuzzle) :: R
     NewPuzzle(game.puzzle)
 end
 
-function Games.gamecommand(game::NiancatGame, ::User, getpuzzle::GetPuzzle) :: Response
+function Gameface.gamecommand(game::NiancatGame, ::User, getpuzzle::GetPuzzle) :: Response
     if game.puzzle === nothing
         NoPuzzleSet()
     else
@@ -71,7 +71,7 @@ function Games.gamecommand(game::NiancatGame, ::User, getpuzzle::GetPuzzle) :: R
     end
 end
 
-function Games.gamecommand(game::NiancatGame, ::User, guess::Guess) :: Response
+function Gameface.gamecommand(game::NiancatGame, ::User, guess::Guess) :: Response
     if guess.word.w in game.dictionary && isanagram(guess.word.w, game.puzzle)
         Correct(guess.word.w)
     else
