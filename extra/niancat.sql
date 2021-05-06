@@ -16,7 +16,7 @@ CREATE TABLE teams
     created_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO teams (team_id, team_name, icon, instance_id) VALUES(1, "defaultteam", "", 1);
+INSERT INTO teams (team_id, team_name, icon, instance_id) VALUES (1, "defaultteam", "", 1);
 
 CREATE TABLE games
 (

@@ -1,13 +1,26 @@
 using Behavior
 using Niancat.Persistence
+using Niancat.Instances
+using Niancat.Games.NiancatGames
+using Niancat.Languages
 
 @given("a game of Niancat in the default instance") do context
     db = GamePersistence()
     context[:db] = db
 
-    loadgameinstances!(db)
+    gi = GameInstances()
 
-    niancat = getgame("Niancat", "defaultinstance")
+    dictionary = SwedishDictionary([
+        "DATORSPEL",
+        "LEDARPOST",
+        "ORDPUSSEL",
+        "PUSSGURKA",
+    ])
+    registergame!(gi, "Niancat", (_state) -> NiancatGame(dictionary))
+
+    loadgameinstances!(gi, db)
+
+    niancat = getgame(gi, "Niancat", "defaultinstance")
     context[:game] = niancat
 end
 
