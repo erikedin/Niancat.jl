@@ -6,12 +6,16 @@ using Niancat.Games.NiancatGames: Incorrect, Correct, Rejected, PuzzleIs, GetPuz
 using Niancat.Games
 
 @when("the puzzle is set to {String}") do context, puzzle
-    response = gamecommand(context[:game], User("name"), SetPuzzle(puzzle))
+    team = Team(1, "defaultteam", "")
+    user = User(1, "name", team)
+    response = gamecommand(context[:game], user, SetPuzzle(puzzle))
     context[:response] = response
 end
 
 @when("a user asks for the puzzle") do context
-    response = gamecommand(context[:game], User("name"), GetPuzzle())
+    team = Team(1, "defaultteam", "")
+    user = User(1, "name", team)
+    response = gamecommand(context[:game], user, GetPuzzle())
     context[:response] = response
 end
 

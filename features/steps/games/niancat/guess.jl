@@ -24,13 +24,17 @@ end
 end
 
 @given("a puzzle {String}") do context, puzzle
-    response = gamecommand(context[:game], User("name"), SetPuzzle(puzzle))
+    team = Team(1, "defaultteam", "")
+    user = User(1, "name", team)
+    response = gamecommand(context[:game], user, SetPuzzle(puzzle))
     context[:response] = response
 end
 
 
 @when("a guess {String} is made") do context, word
-    response = gamecommand(context[:game], User("name"), Guess(word))
+    team = Team(1, "defaultteam", "")
+    user = User(1, "name", team)
+    response = gamecommand(context[:game], user, Guess(word))
     context[:response] = response
 end
 

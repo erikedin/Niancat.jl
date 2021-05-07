@@ -32,7 +32,10 @@ end
 end
 
 @when("Erik solves the puzzle with word {String}") do context, word
-    @fail "Implement me"
+    user = context[:user]
+
+    response = gamecommand(context[:game], user, Guess(word))
+    context[:response] = response
 end
 
 @then("Erik has score {Int} in the scoreboard for Niancat") do context, points

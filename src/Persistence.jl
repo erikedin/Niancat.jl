@@ -2,6 +2,7 @@ module Persistence
 
 using SQLite
 using Niancat
+using Niancat.Users
 
 struct GameInstanceDescription
     gamename::String
@@ -43,7 +44,7 @@ function getgameinstances(persistence::GamePersistence) :: Vector{GameInstanceDe
     [GameInstanceDescription(row) for row in results]
 end
 
-function getuser(persistence::GamePersistence, teamname::String, userid::String) :: User
+function getuser(persistence::GamePersistence, userid::String, teamname::String) :: User
     sql = """
     INSERT OR IGNORE INTO users
         (team_user_id, team_id, display_name)
