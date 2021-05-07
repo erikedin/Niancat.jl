@@ -1,9 +1,17 @@
 module Users
 
-struct User
-    userid::String
+struct Team
+    databaseid::Int
+    name::String
+    icon::String
 end
 
-export User
+struct User
+    databaseid::Int
+    userid::String
+    team::Team
+end
+
+export User, Team
 
 end

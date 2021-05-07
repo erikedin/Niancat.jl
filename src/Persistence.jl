@@ -43,6 +43,37 @@ function getgameinstances(persistence::GamePersistence) :: Vector{GameInstanceDe
     [GameInstanceDescription(row) for row in results]
 end
 
-export GamePersistence, GameInstanceDescription, getgameinstances
+function getuser(persistence::GamePersistence, teamname::String, userid::String) :: User
+    sql = """
+    INSERT OR IGNORE INTO users
+        (team_user_id, team_id, display_name)
+    VALUES
+        (?,
+         (SELECT team_id FROM teams WHERE team_name = ?),
+         ?);
+    """
+
+    DBInterface.execute(persistence.db, sql, (userid, teamname, userid))
+
+    getsql = """
+    SELECT users.user_id, users.team_id, teams.icon
+    FROM users JOIN teams ON users.team_id = teams.team_id
+    WHERE
+        users.team_user_id = ? AND
+        teams.team_name = ?;
+    """
+
+    results = DBInterface.execute(persistence.db, getsql, (userid, teamname))
+    row = first(results)
+
+    userdatabaseid = row[1]
+    teamdatabaseid = row[2]
+    teamicon = row[3]
+    team = Team(teamdatabaseid, teamname, teamicon)
+
+    User(userdatabaseid, userid, team)
+end
+
+export GamePersistence, GameInstanceDescription, getgameinstances, getuser
 
 end

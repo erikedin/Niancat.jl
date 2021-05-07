@@ -4,7 +4,8 @@
             # Arrange
             dictionary = SwedishDictionary(["pussgurka"])
             game = NiancatGame(dictionary)
-            user = User("name")
+            team = Team(1, "defaultteam", "")
+            user = User(1, "name", team)
             gamecommand(game, user, SetPuzzle("PUSSGRUKA"))
 
             # Act
@@ -18,7 +19,8 @@
             # Arrange
             dictionary = SwedishDictionary(["PUSSGURKA"])
             game = NiancatGame(dictionary)
-            user = User("name")
+            team = Team(1, "defaultteam", "")
+            user = User(1, "name", team)
             gamecommand(game, user, SetPuzzle("PUSSGRUKA"))
 
             # Act
@@ -34,7 +36,8 @@
             # Arrange
             dictionary = SwedishDictionary(["Å", "ÄR", "Ö"])
             game = NiancatGame(dictionary)
-            user = User("name")
+            team = Team(1, "defaultteam", "")
+            user = User(1, "name", team)
             gamecommand(game, user, SetPuzzle("Å"))
 
             # Act
@@ -48,7 +51,8 @@
             # Arrange
             dictionary = SwedishDictionary(["Å", "ÄR", "Ö"])
             game = NiancatGame(dictionary)
-            user = User("name")
+            team = Team(1, "defaultteam", "")
+            user = User(1, "name", team)
             gamecommand(game, user, SetPuzzle("Å"))
 
             # Act
@@ -63,7 +67,8 @@
             # Arrange
             dictionary = SwedishDictionary(["Å", "ÄR", "Ö"])
             game = NiancatGame(dictionary)
-            user = User("name")
+            team = Team(1, "defaultteam", "")
+            user = User(1, "name", team)
             gamecommand(game, user, SetPuzzle("ÄR"))
 
             # Act
@@ -77,7 +82,8 @@
             # Arrange
             dictionary = SwedishDictionary(["Å", "ÄR", "Ö"])
             game = NiancatGame(dictionary)
-            user = User("name")
+            team = Team(1, "defaultteam", "")
+            user = User(1, "name", team)
             gamecommand(game, user, SetPuzzle("ÄR"))
 
             # Act
@@ -92,7 +98,8 @@
             # Arrange
             dictionary = SwedishDictionary(["Å", "ÄR", "Ö"])
             game = NiancatGame(dictionary)
-            user = User("name")
+            team = Team(1, "defaultteam", "")
+            user = User(1, "name", team)
             gamecommand(game, user, SetPuzzle("Ö"))
 
             # Act
@@ -106,7 +113,8 @@
             # Arrange
             dictionary = SwedishDictionary(["Å", "ÄR", "Ö"])
             game = NiancatGame(dictionary)
-            user = User("name")
+            team = Team(1, "defaultteam", "")
+            user = User(1, "name", team)
             gamecommand(game, user, SetPuzzle("Ö"))
 
             # Act
@@ -126,7 +134,8 @@
                 # Arrange
                 dictionary = SwedishDictionary(["DATORSPEL"])
                 game = NiancatGame(dictionary)
-                user = User("name")
+                team = Team(1, "defaultteam", "")
+                user = User(1, "name", team)
                 gamecommand(game, user, SetPuzzle("DATORSPLE"))
 
                 # Act

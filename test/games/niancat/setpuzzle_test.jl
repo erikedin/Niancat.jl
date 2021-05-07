@@ -3,7 +3,8 @@
         # Arrange
         dictionary = SwedishDictionary(["ORDPUSSEL"])
         game = NiancatGame(dictionary)
-        user = User("name")
+        team = Team(1, "defaultteam", "")
+        user = User(1, "name", team)
         gamecommand(game, user, SetPuzzle("ORDPUSSLE"))
 
         # Act
@@ -17,7 +18,8 @@
         # Arrange
         dictionary = SwedishDictionary(["ORDPUSSEL", "DATORSPEL"])
         game = NiancatGame(dictionary)
-        user = User("name")
+        team = Team(1, "defaultteam", "")
+        user = User(1, "name", team)
         gamecommand(game, user, SetPuzzle("ORDPUSSLE"))
 
         # Act
@@ -31,7 +33,8 @@
         # Arrange
         dictionary = SwedishDictionary(["ORDPUSSEL"])
         game = NiancatGame(dictionary)
-        user = User("name")
+        team = Team(1, "defaultteam", "")
+        user = User(1, "name", team)
         gamecommand(game, user, SetPuzzle("ORDPUSSLE"))
 
         # Act
@@ -45,7 +48,8 @@
         # Arrange
         dictionary = SwedishDictionary(["ORDPUSSEL"])
         game = NiancatGame(dictionary)
-        user = User("name")
+        team = Team(1, "defaultteam", "")
+        user = User(1, "name", team)
         gamecommand(game, user, SetPuzzle("ORDPUSSLE"))
 
         # Act
@@ -59,7 +63,8 @@
         # Arrange
         dictionary = SwedishDictionary(["ORDPUSSEL"])
         game = NiancatGame(dictionary)
-        user = User("name")
+        team = Team(1, "defaultteam", "")
+        user = User(1, "name", team)
 
         # Act
         response = gamecommand(game, user, SetPuzzle("DATORSPLE"))
