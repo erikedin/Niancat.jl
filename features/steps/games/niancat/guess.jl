@@ -17,9 +17,14 @@ column(t::ByColumnTable, n::Int = 1) = [row[n] for row in t.table]
     context[:dictionary] = SwedishDictionary(words)
 end
 
+# TODO: Eventually we'll want BDD requirements on scoring, and
+# then we'll have to replace this with a stub instead.
+struct NoopGameEventPersistence <: GameEventPersistence end
+Gameface.record!(::NoopGameEventPersistence, ::User, ::Score) = nothing
+
 @given("a new game") do context
     dictionary = context[:dictionary]
-    game = NiancatGame(dictionary)
+    game = NiancatGame(dictionary, NoopGameEventPersistence())
     context[:game] = game
 end
 

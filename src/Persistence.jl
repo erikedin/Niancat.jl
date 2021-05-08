@@ -3,6 +3,7 @@ module Persistence
 using SQLite
 using Niancat
 using Niancat.Users
+using Niancat.Gameface
 
 struct GameInstanceDescription
     gamename::String
@@ -22,7 +23,7 @@ function initializedatabase!(db::SQLite.DB)
     end
 end
 
-struct GamePersistence
+struct GamePersistence <: GameEventPersistence
     db::SQLite.DB
 
     function GamePersistence()

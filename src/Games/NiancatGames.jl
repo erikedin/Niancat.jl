@@ -51,8 +51,9 @@ mutable struct NiancatGame <: Game
     round::String
     dictionary::SwedishDictionary
     puzzle::Union{Nothing, String}
+    events::GameEventPersistence
 
-    NiancatGame(d::SwedishDictionary) = new(1, "", d, nothing)
+    NiancatGame(d::SwedishDictionary, events::GameEventPersistence) = new(1, "", d, nothing, events)
 end
 
 Gameface.gameround(game::NiancatGame) :: String = string(game.round)
@@ -77,8 +78,9 @@ function Gameface.gamecommand(game::NiancatGame, ::User, getpuzzle::GetPuzzle) :
     end
 end
 
-function Gameface.gamecommand(game::NiancatGame, ::User, guess::Guess) :: Response
+function Gameface.gamecommand(game::NiancatGame, user::User, guess::Guess) :: Response
     if guess.word.w in game.dictionary && isanagram(guess.word.w, game.puzzle)
+        record!(game.events, user, Score(1, "", "", 1))
         Correct(guess.word.w)
     else
         Incorrect(guess.word.w)

@@ -17,7 +17,7 @@ using Niancat.Scores
         "ORDPUSSEL",
         "PUSSGURKA",
     ])
-    registergame!(gi, "Niancat", (_state) -> NiancatGame(dictionary))
+    registergame!(gi, "Niancat", (_state) -> NiancatGame(dictionary, db))
 
     loadgameinstances!(gi, db)
 

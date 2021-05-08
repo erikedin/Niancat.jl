@@ -46,6 +46,23 @@ The database id for this instance of the game.
 """
 gameinstanceid(::Game) :: Int = error("Implement this in Game subtypes")
 
-export Game, Response, NoResponse, gamecommand, gameinstanceid, gameround
+"""
+GameEventPersistence records game events, like scores.
+"""
+abstract type GameEventPersistence end
+
+"""
+Score represents a score for a given round of a game.
+"""
+struct Score
+    gameinstanceid::Int
+    round::String
+    key::String
+    value::Float32
+end
+
+record!(::GameEventPersistence, ::User, ::Score) = error("Implement this in GameEventPersistence subtypes")
+
+export Game, Response, NoResponse, gamecommand, gameinstanceid, gameround, Score, record!, GameEventPersistence
 
 end
