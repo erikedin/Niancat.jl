@@ -3,6 +3,7 @@ module NiancatGames
 using Niancat.Gameface
 using Niancat.Languages
 using Niancat.Users
+using Niancat.Scores
 import Niancat.Gameface: gamecommand
 
 struct SetPuzzle
@@ -46,11 +47,16 @@ struct NotAWord <: Response
 end
 
 mutable struct NiancatGame <: Game
+    gameinstanceid::Int
+    round::String
     dictionary::SwedishDictionary
     puzzle::Union{Nothing, String}
 
-    NiancatGame(d::SwedishDictionary) = new(d, nothing)
+    NiancatGame(d::SwedishDictionary) = new(1, "", d, nothing)
 end
+
+Gameface.gameround(game::NiancatGame) :: String = string(game.round)
+Gameface.gameinstanceid(game::NiancatGame) :: Int = game.gameinstanceid
 
 function Gameface.gamecommand(game::NiancatGame, ::User, setpuzzle::SetPuzzle) :: Response
     if game.puzzle !== nothing && isanagram(game.puzzle, setpuzzle.puzzle)

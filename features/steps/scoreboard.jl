@@ -3,6 +3,7 @@ using Niancat.Persistence
 using Niancat.Instances
 using Niancat.Games.NiancatGames
 using Niancat.Languages
+using Niancat.Scores
 
 @given("a game of Niancat in the default instance") do context
     db = GamePersistence()
@@ -41,6 +42,7 @@ end
 @then("Erik has score {Int} in the scoreboard for Niancat") do context, points
     user = context[:user]
     niancat = context[:game]
+    db = context[:db]
 
     scoreboard = getscoreboard(db, niancat)
 

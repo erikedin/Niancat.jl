@@ -32,6 +32,20 @@ with any message.
 """
 struct NoResponse <: Response end
 
-export Game, Response, NoResponse, gamecommand
+"""
+    gameround(game::Game) :: String
+
+The round identifier for the current round of the game instance `game`.
+"""
+gameround(::Game) :: String = error("Implement this in Game subtypes")
+
+"""
+    gameinstanceid(game::Game) :: Int
+
+The database id for this instance of the game.
+"""
+gameinstanceid(::Game) :: Int = error("Implement this in Game subtypes")
+
+export Game, Response, NoResponse, gamecommand, gameinstanceid, gameround
 
 end
