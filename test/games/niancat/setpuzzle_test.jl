@@ -71,6 +71,56 @@
 
         # Assert
         @test response isa Rejected
+    end
 
+    @testset "Puzzle is rejected because of no solutions; The round is still the same" begin
+        # Arrange
+        dictionary = SwedishDictionary(["ORDPUSSEL"])
+        game = NiancatGame(dictionary, NoopGameEventPersistence())
+        team = Team(1, "defaultteam", "")
+        user = User(1, "name", team)
+        gamecommand(game, user, SetPuzzle("ORDPUSSLE"))
+        roundbefore = gameround(game)
+
+        # Act
+        gamecommand(game, user, SetPuzzle("NOSUCHWORD"))
+        roundafter = gameround(game)
+
+        # Assert
+        @test roundbefore == roundafter
+    end
+
+    @testset "Puzzle is ORDPUSSLE; Setting the anagram ORDPUSLES; The round is unchanged" begin
+        # Arrange
+        dictionary = SwedishDictionary(["ORDPUSSEL"])
+        game = NiancatGame(dictionary, NoopGameEventPersistence())
+        team = Team(1, "defaultteam", "")
+        user = User(1, "name", team)
+        gamecommand(game, user, SetPuzzle("ORDPUSSLE"))
+        roundbefore = gameround(game)
+
+        # Act
+        response = gamecommand(game, user, SetPuzzle("ORDPUSLES"))
+        roundafter = gameround(game)
+
+        # Assert
+        @test roundbefore == roundafter
+    end
+
+    @testset "Puzzle is ORDPUSSLE; Setting the puzzle to DATORSPLE; The round is changed" begin
+        # Arrange
+        dictionary = SwedishDictionary(["ORDPUSSEL", "DATORSPEL"])
+        game = NiancatGame(dictionary, NoopGameEventPersistence())
+        team = Team(1, "defaultteam", "")
+        user = User(1, "name", team)
+        gamecommand(game, user, SetPuzzle("ORDPUSSLE"))
+        roundbefore = gameround(game)
+
+        # Act
+        response = gamecommand(game, user, SetPuzzle("DATORSPLE"))
+        roundafter = gameround(game)
+
+        # Assert
+        @test roundbefore != roundafter
     end
 end
