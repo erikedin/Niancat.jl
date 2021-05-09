@@ -66,6 +66,8 @@ function userscore(scoreboard::Scoreboard, user::User) :: Float32
     d[user]
 end
 
-export Scoreboard, getscoreboard, recordscore!, Score, UserScore, userscore
+hasuser(scoreboard::Scoreboard, user::User) :: Bool = any(((u, _s), ) -> u == user, scoreboard.scores)
+
+export Scoreboard, getscoreboard, recordscore!, Score, UserScore, userscore, hasuser
 
 end

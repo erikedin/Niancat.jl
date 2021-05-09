@@ -48,3 +48,13 @@ end
 
     @expect userscore(scoreboard, user) == points
 end
+
+@then("Erik is not in the scoreboard") do context
+    user = context[:user]
+    niancat = context[:game]
+    db = context[:db]
+
+    scoreboard = getscoreboard(db, niancat)
+
+    @expect hasuser(scoreboard, user) == false
+end

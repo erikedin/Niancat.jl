@@ -22,9 +22,8 @@ Feature: Scoreboard
           And Erik solves the puzzle with word DATORSPEL again
          Then Erik has score 1 in the scoreboard for Niancat
     
-    @wip
     Scenario: Scoreboard resets each round
         Given a puzzle PUSSGURAK
           And Erik solves the puzzle with word PUSSGURKA
-         When a new puzzle ORDPUSSLE is set
+         When the puzzle is set to ORDPUSSLE
          Then Erik is not in the scoreboard
