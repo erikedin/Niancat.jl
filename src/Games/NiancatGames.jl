@@ -5,6 +5,7 @@ using Niancat.Languages
 using Niancat.Users
 using Niancat.Scores
 import Niancat.Gameface: gamecommand
+using UUIDs
 
 struct SetPuzzle
     puzzle::String
@@ -48,12 +49,12 @@ end
 
 mutable struct NiancatGame <: Game
     gameinstanceid::Int
-    round::String
+    round::UUID
     dictionary::SwedishDictionary
     puzzle::Union{Nothing, String}
     events::GameEventPersistence
 
-    NiancatGame(d::SwedishDictionary, events::GameEventPersistence) = new(1, "", d, nothing, events)
+    NiancatGame(d::SwedishDictionary, events::GameEventPersistence) = new(1, uuid4(), d, nothing, events)
 end
 
 Gameface.gameround(game::NiancatGame) :: String = string(game.round)
@@ -67,6 +68,7 @@ function Gameface.gamecommand(game::NiancatGame, ::User, setpuzzle::SetPuzzle) :
         return Rejected()
     end
     game.puzzle = setpuzzle.puzzle
+    game.round = uuid4()
     NewPuzzle(game.puzzle)
 end
 
@@ -80,7 +82,7 @@ end
 
 function Gameface.gamecommand(game::NiancatGame, user::User, guess::Guess) :: Response
     if guess.word.w in game.dictionary && isanagram(guess.word.w, game.puzzle)
-        record!(game.events, user, Score(1, "", "", 1))
+        record!(game.events, user, Score(1, string(game.round), normalizedword(game.dictionary, guess.word.w), 1))
         Correct(guess.word.w)
     else
         Incorrect(guess.word.w)

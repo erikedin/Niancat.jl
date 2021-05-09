@@ -10,14 +10,12 @@ Feature: Scoreboard
          When Erik solves the puzzle with word PUSSGURKA
          Then Erik has score 1 in the scoreboard for Niancat
     
-    @wip
     Scenario: Score two points
         Given a puzzle DATORSPLE
          When Erik solves the puzzle with word DATORSPEL
           And Erik solves the puzzle with word LEDARPOST
          Then Erik has score 2 in the scoreboard for Niancat
     
-    @wip
     Scenario: Solutions are not counted more than once
         Given a puzzle DATORSPLE
          When Erik solves the puzzle with word DATORSPEL

@@ -51,6 +51,8 @@ Base.in(word::String, s::SwedishDictionary) = in(Word(normalize(word)), s.words)
 
 findanagrams(dictionary::SwedishDictionary, s::String) = get(dictionary.anagrams, sortword(s), [])
 
-export SwedishDictionary, Word, isanagram, findanagrams
+normalizedword(::SwedishDictionary, word::String) :: String = normalize(word)
+
+export SwedishDictionary, Word, isanagram, findanagrams, normalizedword
 
 end

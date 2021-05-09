@@ -4,4 +4,4 @@ using Test
 
 include("games/niancat/runtests.jl")
 
-@test runspec(pkgdir(Niancat), tags = "not @wip")
+@test runspec(pkgdir(Niancat), tags = "not @wip", presenter = TerseRealTimePresenter(ColorConsolePresenter()))
