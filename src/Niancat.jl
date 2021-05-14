@@ -11,4 +11,6 @@ module Games
 include("Games/NiancatGames.jl")
 end
 
+include("service.jl")
+
 end # module

@@ -23,6 +23,9 @@ using Niancat.Scores
 
     niancat = getgame(gi, "Niancat", "defaultinstance")
     context[:game] = niancat
+
+    service = NiancatService(db)
+    context[:service] = service
 end
 
 @given("a user Erik in the default team") do context

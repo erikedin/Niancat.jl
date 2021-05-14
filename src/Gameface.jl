@@ -64,5 +64,6 @@ end
 record!(::GameEventPersistence, ::User, ::Score) = error("Implement this in GameEventPersistence subtypes")
 
 export Game, Response, NoResponse, gamecommand, gameinstanceid, gameround, Score, record!, GameEventPersistence
+export GameCommand
 
 end
