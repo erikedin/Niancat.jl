@@ -21,6 +21,6 @@ end
 
 getgame(gi::GameInstances, _gamename::String, _instancename::String) = gi.game
 
-export GameInstances, loadgameinstances!, getgame, registergame!
+export GameInstances,  getgame, registergame!
 
 end

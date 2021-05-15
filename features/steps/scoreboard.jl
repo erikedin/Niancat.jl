@@ -4,12 +4,18 @@ using Niancat.Instances
 using Niancat.Games.NiancatGames
 using Niancat.Languages
 using Niancat.Scores
+using SQLite
 
 @given("a game of Niancat in the default instance") do context
-    db = GamePersistence()
-    context[:db] = db
+    sqlitedb = SQLite.DB()
+    initializedatabase!(sqlitedb)
 
-    gi = GameInstances()
+    service = NiancatService(sqlitedb)
+    context[:service] = service
+
+    context[:db] = service.persistence
+
+    gi = service.instances
 
     dictionary = SwedishDictionary([
         "DATORSPEL",
@@ -17,15 +23,13 @@ using Niancat.Scores
         "ORDPUSSEL",
         "PUSSGURKA",
     ])
-    registergame!(gi, "Niancat", (_state) -> NiancatGame(dictionary, db))
+    registergame!(service, "Niancat", (_state) -> NiancatGame(dictionary, service.persistence))
 
-    loadgameinstances!(gi, db)
+    loadgameinstances!(service)
 
     niancat = getgame(gi, "Niancat", "defaultinstance")
     context[:game] = niancat
 
-    service = NiancatService(db)
-    context[:service] = service
 end
 
 @given("a user Erik in the default team") do context

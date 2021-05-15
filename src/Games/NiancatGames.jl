@@ -7,17 +7,17 @@ using Niancat.Scores
 import Niancat.Gameface: gamecommand
 using UUIDs
 
-struct SetPuzzle
+struct SetPuzzle <: GameCommand
     puzzle::String
 end
 
-struct Guess
+struct Guess <: GameCommand
     word::Word
 
     Guess(s::String) = new(Word(s))
 end
 
-struct GetPuzzle end
+struct GetPuzzle <: GameCommand end
 
 struct PuzzleIs <: Response
     puzzle::String

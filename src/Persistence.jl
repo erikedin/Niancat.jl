@@ -31,6 +31,8 @@ struct GamePersistence <: GameEventPersistence
         initializedatabase!(db)
         new(db)
     end
+
+    GamePersistence(db::SQLite.DB) = new(db)
 end
 
 function getgameinstances(persistence::GamePersistence) :: Vector{GameInstanceDescription}
@@ -76,6 +78,6 @@ function getuser(persistence::GamePersistence, userid::String, teamname::String)
     User(userdatabaseid, userid, team)
 end
 
-export GamePersistence, GameInstanceDescription, getgameinstances, getuser
+export GamePersistence, GameInstanceDescription, getgameinstances, getuser, initializedatabase!
 
 end
