@@ -8,7 +8,6 @@ using SQLite
 
 @given("a game of Niancat in the default instance") do context
     sqlitedb = SQLite.DB()
-    initializedatabase!(sqlitedb)
 
     service = NiancatService(sqlitedb)
     context[:service] = service

@@ -7,8 +7,6 @@ column(t::Behavior.Gherkin.DataTable) = [row[1] for row in t]
 
 @given("a default Niancat service") do context
     sqlitedb = SQLite.DB()
-    initializedatabase!(sqlitedb)
-
     service = NiancatService(sqlitedb)
 
     # TODO This ought to be done by other means as soon
@@ -51,4 +49,62 @@ end
     actualinstancenames = sort(context[:instancenames])
 
     @expect expectedinstancenames == actualinstancenames
+end
+
+@given("a new database file") do context
+    context[:databasefile] = Base.Filesystem.tempname()
+end
+
+@when("a Niancat service is started") do context
+    databasefile = context[:databasefile]
+    sqlitedb = SQLite.DB(databasefile)
+    service = NiancatService(sqlitedb)
+
+    # TODO This ought to be done by other means as soon
+    #      as those means exist.
+    # Load the default Niancat.
+    dictionary = SwedishDictionary([
+        "DATORSPEL",
+        "LEDARPOST",
+        "ORDPUSSEL",
+        "PUSSGURKA",
+    ])
+    registergame!(service, "Niancat", (_state) -> NiancatGame(dictionary, service.persistence))
+    loadgameinstances!(service)
+
+    context[:service] = service
+end
+
+@then("the database has the default tables") do context
+    databasefile = context[:databasefile]
+    sqlitedb = SQLite.DB(databasefile)
+
+    result = SQLite.tables(sqlitedb)
+    actualtables = result[:name]
+
+    expectedtables = column(context.datatable)
+
+    @expect actualtables == expectedtables
+end
+
+@when("an existing database file") do context
+    databasefile = Base.Filesystem.tempname()
+    context[:databasefile] = databasefile
+
+    sqlitedb = SQLite.DB(databasefile)
+    service = NiancatService(sqlitedb)
+
+    # TODO This ought to be done by other means as soon
+    #      as those means exist.
+    # Load the default Niancat.
+    dictionary = SwedishDictionary([
+        "DATORSPEL",
+        "LEDARPOST",
+        "ORDPUSSEL",
+        "PUSSGURKA",
+    ])
+    registergame!(service, "Niancat", (_state) -> NiancatGame(dictionary, service.persistence))
+    loadgameinstances!(service)
+
+    context[:service] = service
 end

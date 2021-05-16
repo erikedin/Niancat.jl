@@ -15,6 +15,12 @@ struct NiancatService
     instances::GameInstances
 
     function NiancatService(db::SQLite.DB)
+        # Initialize the database if it is empty.
+        tableresult = SQLite.tables(db)
+        tables = tableresult[:name]
+        if isempty(tables)
+            Persistence.initializedatabase!(db)
+        end
         new(GamePersistence(db), GameInstances())
     end
 end
