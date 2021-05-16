@@ -78,6 +78,22 @@ function getuser(persistence::GamePersistence, userid::String, teamname::String)
     User(userdatabaseid, userid, team)
 end
 
+function listinstancenames(persistence::GamePersistence) :: Vector{String}
+    sql = "SELECT instance_name FROM instances;"
+
+    results = DBInterface.execute(persistence.db, sql)
+
+    [row[:instance_name] for row in results]
+end
+
+function declareinstance!(persistence::GamePersistence, instancename::String)
+    sql = """
+        INSERT OR IGNORE INTO instances (instance_name)
+        VALUES (?);
+    """
+    DBInterface.execute(persistence.db, sql, (instancename,))
+end
+
 export GamePersistence, GameInstanceDescription, getgameinstances, getuser, initializedatabase!
 
 end

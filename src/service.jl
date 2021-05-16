@@ -2,6 +2,7 @@ using Niancat.Gameface
 using Niancat.Users
 using Niancat.Persistence
 using Niancat.Instances
+using Niancat.Games.NiancatGames
 import Niancat.Instances: registergame!
 
 # This is a placeholder until a proper implementation is done
@@ -13,7 +14,9 @@ struct NiancatService
     persistence::GamePersistence
     instances::GameInstances
 
-    NiancatService(db::SQLite.DB) = new(GamePersistence(db), GameInstances())
+    function NiancatService(db::SQLite.DB)
+        new(GamePersistence(db), GameInstances())
+    end
 end
 
 function findcommand(svc::NiancatService, user::User, command::String) :: Tuple{Game, GameCommand}
@@ -30,4 +33,7 @@ end
 loadgameinstances!(svc::NiancatService) = Instances.loadgameinstances!(svc.instances, svc.persistence)
 Instances.registergame!(svc::NiancatService, name::String, factory::Function) = registergame!(svc.instances, name, factory)
 
-export NiancatService, findcommand, loadgameinstances!
+declareinstance!(svc::NiancatService, instancename::String) = Persistence.declareinstance!(svc.persistence, instancename)
+listinstancenames(svc::NiancatService) :: Vector{String} = Persistence.listinstancenames(svc.persistence)
+
+export NiancatService, findcommand, loadgameinstances!, declareinstance!, listinstancenames
