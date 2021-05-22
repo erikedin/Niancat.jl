@@ -30,3 +30,9 @@ end
 
     @expect command == NiancatGames.Guess(word)
 end
+
+@then("the command is SetPuzzle(\"{String}\")") do context, word
+    command = context[:foundcommand]
+
+    @expect command == NiancatGames.SetPuzzle(word)
+end

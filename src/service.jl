@@ -31,6 +31,9 @@ function findcommand(svc::NiancatService, user::User, command::String) :: Tuple{
 
     if command == "!nian"
         game, NiancatGames.GetPuzzle()
+    elseif startswith(command, "!sättnian")
+        word = split(command)[2]
+        game, NiancatGames.SetPuzzle(word)
     else
         game, NiancatGames.Guess(command)
     end

@@ -14,3 +14,8 @@ Feature: Game commands
          When Erik sends the command "ORDPUSSEL"
          Then the service finds the game Niancat in the default instance
           And the command is Guess("ORDPUSSEL")
+
+    Scenario: Niancat: Set the puzzle
+         When Erik sends the command "!sättnian ORDPUSSLE"
+         Then the service finds the game Niancat in the default instance
+          And the command is SetPuzzle("ORDPUSSLE")
