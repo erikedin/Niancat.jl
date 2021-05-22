@@ -4,6 +4,7 @@ using Niancat.Persistence
 using Niancat.Instances
 using Niancat.Games.NiancatGames
 import Niancat.Instances: registergame!
+import Niancat.Persistence: getuser
 
 # This is a placeholder until a proper implementation is done
 using Niancat.Games.NiancatGames
@@ -45,4 +46,7 @@ Instances.registergame!(svc::NiancatService, name::String, factory::Function) = 
 declareinstance!(svc::NiancatService, instancename::String) = Persistence.declareinstance!(svc.persistence, instancename)
 listinstancenames(svc::NiancatService) :: Vector{String} = Persistence.listinstancenames(svc.persistence)
 
+Persistence.getuser(svc::NiancatService, userid::String, teamname::String) :: User = getuser(svc.persistence, userid, teamname)
+
 export NiancatService, findcommand, loadgameinstances!, declareinstance!, listinstancenames
+export getuser
