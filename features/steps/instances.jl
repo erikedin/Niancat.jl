@@ -85,7 +85,9 @@ end
 
     expectedtables = column(context.datatable)
 
-    @expect actualtables == expectedtables
+    for expectedtable in expectedtables
+        @expect expectedtable in actualtables
+    end
 end
 
 @when("an existing database file") do context

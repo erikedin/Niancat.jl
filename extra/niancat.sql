@@ -18,6 +18,14 @@ CREATE TABLE teams
 
 INSERT INTO teams (team_id, team_name, icon, instance_id) VALUES (1, "defaultteam", "", 1);
 
+CREATE TABLE teamnotifications
+(
+    team_notification_id    INTEGER PRIMARY KEY AUTOINCREMENT,
+    team_id     INTEGER NOT NULL REFERENCES teams(team_id),
+    uri         TEXT NOT NULL,
+    UNIQUE(team_id)
+);
+
 CREATE TABLE games
 (
     game_id     INTEGER PRIMARY KEY,

@@ -19,7 +19,6 @@ Feature: Instances
             | Quux            |
             | Fnord           |
     
-    @wip
     Scenario: A team updates its notification endpoint
         Given that the team defaultteam updates the notification endpoint to http://localhost:8081/notification
          When a notification is sent for the instance defaultinstance
