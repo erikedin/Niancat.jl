@@ -74,3 +74,20 @@ end
     @test response isa Incorrect
     @test response.word == Word("DATORSPEL")
 end
+
+@testset "Puzzle is PUSSGRUKA; User guesses PUSSGURKA; Notification that the user has guessed correctly" begin
+    # Arrange
+    gameservice = TestingGameService()
+    dictionary = SwedishDictionary(["PUSSGURKA"])
+    game = NiancatGame(dictionary, gameservice)
+    team = Team(1, "defaultteam", "")
+    user = User(1, "name", team)
+    gamecommand(game, user, SetPuzzle("PUSSGRUKA"))
+
+    # Act
+    gamecommand(game, user, Guess("PUSSGURKA"))
+
+    # Assert
+    @test length(gameservice.notifications) != 0
+    @test lastnotification(gameservice) == CorrectNotification(user)
+end

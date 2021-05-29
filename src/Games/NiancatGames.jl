@@ -7,6 +7,10 @@ using Niancat.Scores
 import Niancat.Gameface: gamecommand
 using UUIDs
 
+#
+# Commands
+#
+
 struct SetPuzzle <: GameCommand
     puzzle::String
 end
@@ -18,6 +22,10 @@ struct Guess <: GameCommand
 end
 
 struct GetPuzzle <: GameCommand end
+
+#
+# Command responses
+#
 
 struct PuzzleIs <: Response
     puzzle::String
@@ -46,6 +54,18 @@ end
 struct NotAWord <: Response
     puzzle::String
 end
+
+#
+# Notifications
+#
+
+struct CorrectNotification <: GameNotification
+    user::User
+end
+
+#
+# Game logic
+#
 
 mutable struct NiancatGame <: Game
     gameservice::GameService
@@ -81,6 +101,7 @@ end
 function Gameface.gamecommand(game::NiancatGame, user::User, guess::Guess) :: Response
     if guess.word.w in game.dictionary && isanagram(guess.word.w, game.puzzle)
         score!(game.gameservice, user, Score(1, string(game.round), normalizedword(game.dictionary, guess.word.w), 1))
+        notify!(game.gameservice, CorrectNotification(user))
         Correct(guess.word.w)
     else
         Incorrect(guess.word.w)

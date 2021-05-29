@@ -106,6 +106,7 @@ Recording user scores is done via the GameService.
 abstract type GameService end
 
 score!(::GameService, ::User, ::Score) = error("Implement score! in GameService subtypes")
+notify!(::GameService, ::GameNotification) = error("Implement notify! in GameService subtypes")
 
 """
 ConcreteGameService is merely the implementation of the `GameService` interface.
@@ -118,10 +119,15 @@ struct ConcreteGameService <: GameService
 end
 
 score!(g::ConcreteGameService, user::User, score::Score) = score!(g.persistence, user, score)
+notify!(g::ConcreteGameService, notif::GameNotification) = nothing
 gameinstanceid(g::ConcreteGameService) = g.gameinstanceid
 
-export Game, Response, NoResponse, gamecommand, gameinstanceid, gameround, Score, score!, GameEventPersistence
-export GameCommand
-export GameService, InstanceInfo, ConcreteGameService
+export Game, Response, NoResponse, gamecommand, gameinstanceid, gameround, Score, GameEventPersistence
+export GameCommand, GameNotification
+export InstanceInfo
+
+# GameService export
+export GameService, score!, notify!
+export ConcreteGameService
 
 end

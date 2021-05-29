@@ -18,14 +18,6 @@ column(t::ByColumnTable, n::Int = 1) = [row[n] for row in t.table]
     context[:dictionary] = SwedishDictionary(words)
 end
 
-struct TestingGameService <: GameService
-    scores::Vector{Tuple{User, Score}}
-
-    TestingGameService() = new([])
-end
-
-Gameface.score!(tgs::TestingGameService, user::User, score::Score) = push!(tgs.scores, (user, score))
-
 @given("a new game") do context
     dictionary = context[:dictionary]
     game = NiancatGame(dictionary, TestingGameService())
