@@ -11,7 +11,7 @@ end
 
 registergame!(gi::GameInstances, _name::String, factory::Function) = gi.factory[] = factory
 
-function makegameservice(persistence::GamePersistence, description::GameInstanceDescription)
+function makegameservice(persistence::GamePersistence, description::GameInstanceDescription) :: GameService
     ConcreteGameService(description.instanceinfo, description.gameinstanceid, persistence)
 end
 

@@ -22,7 +22,7 @@ using SQLite
         "ORDPUSSEL",
         "PUSSGURKA",
     ])
-    registergame!(service, "Niancat", (_state) -> NiancatGame(dictionary, service.persistence))
+    registergame!(service, "Niancat", (_state, gameservice) -> NiancatGame(dictionary, gameservice))
 
     loadgameinstances!(service)
 

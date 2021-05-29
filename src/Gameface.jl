@@ -54,13 +54,11 @@ gameround(::Game) :: String = error("Implement this in Game subtypes")
     gameinstanceid(game::Game) :: Int
 
 The database id for this instance of the game.
-"""
-gameinstanceid(::Game) :: Int = error("Implement this in Game subtypes")
 
+The default implementation assumes that the game has a field `gameservice`
+of type `GameService`, from which it can find the game instance id.
 """
-GameEventPersistence records game events, like scores.
-"""
-abstract type GameEventPersistence end
+gameinstanceid(g::Game) :: Int = gameinstanceid(g.gameservice)
 
 """
 Score represents a score for a given round of a game.
@@ -71,6 +69,14 @@ struct Score
     key::String
     value::Float32
 end
+
+"""
+GameEventPersistence records game events, like scores.
+"""
+abstract type GameEventPersistence end
+
+score!(::GameEventPersistence, ::User, ::Score) = error("Implement this in GameEventPersistence subtypes")
+
 
 """
 InstanceInfo encapsulates static, but not dynamic, information on an instance.
@@ -99,7 +105,7 @@ Recording user scores is done via the GameService.
 """
 abstract type GameService end
 
-score!(::GameService, ::User, ::Score) = error("Implement this in GameService subtypes")
+score!(::GameService, ::User, ::Score) = error("Implement score! in GameService subtypes")
 
 """
 ConcreteGameService is merely the implementation of the `GameService` interface.
@@ -110,6 +116,9 @@ struct ConcreteGameService <: GameService
     gameinstanceid::Int
     persistence::GameEventPersistence
 end
+
+score!(g::ConcreteGameService, user::User, score::Score) = score!(g.persistence, user, score)
+gameinstanceid(g::ConcreteGameService) = g.gameinstanceid
 
 export Game, Response, NoResponse, gamecommand, gameinstanceid, gameround, Score, score!, GameEventPersistence
 export GameCommand

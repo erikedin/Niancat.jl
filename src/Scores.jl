@@ -3,6 +3,7 @@ module Scores
 using Niancat.Users
 using Niancat.Persistence
 using Niancat.Gameface
+import Niancat.Gameface: score!
 using SQLite
 
 const UserScore = Tuple{User, Float32}
@@ -11,7 +12,7 @@ struct Scoreboard
     scores::Vector{UserScore}
 end
 
-function record!(persistence::GamePersistence, user::User, score::Score)
+function Gameface.score!(persistence::GamePersistence, user::User, score::Score)
     sql = """
         INSERT OR IGNORE INTO scores
             (game_instance_id, user_id, round, score_key, points)
