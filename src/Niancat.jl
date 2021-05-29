@@ -5,6 +5,7 @@ include("Users.jl")
 include("Http.jl")
 include("Gameface.jl")
 include("Persistence.jl")
+include("GameServiceImpl.jl")
 include("Instances.jl")
 include("Scores.jl")
 

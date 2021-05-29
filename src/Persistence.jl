@@ -112,7 +112,20 @@ function updatenotificationendpoint!(persistence::GamePersistence, teamname::Str
     DBInterface.execute(persistence.db, sql, (teamname, uri))
 end
 
+function getnotificationendpoints(persistence::GamePersistence, instancedatabaseid::Int) :: Vector{String}
+    sql = """
+            SELECT uri
+            FROM teamnotifications
+            JOIN teams ON teams.team_id = teamnotifications.team_id
+            WHERE teams.instance_id = ?
+            ;"""
+
+    results = DBInterface.execute(persistence.db, sql, (instancedatabaseid,))
+
+    [row[:uri] for row in results]
+end
+
 export GamePersistence, GameInstanceDescription, getgameinstances, getuser, initializedatabase!
-export updatenotificationendpoint!
+export updatenotificationendpoint!, getnotificationendpoints
 
 end

@@ -1,6 +1,7 @@
 using Behavior
 using Niancat
 using Niancat.Http
+import Niancat.Http: post
 using Niancat.Games.NiancatGames
 using Niancat.Gameface: GameNotification
 using SQLite
@@ -13,7 +14,7 @@ struct FakeHttpClient <: HttpClient
     FakeHttpClient() = new([])
 end
 
-post(c::FakeHttpClient, uri::String, body::String) = push!(c.posts, (uri, body))
+Http.post(c::FakeHttpClient, uri::String, body::String) = push!(c.posts, (uri, body))
 
 @given("a default Niancat service") do context
     sqlitedb = SQLite.DB()
@@ -145,5 +146,6 @@ end
     httpclient = context[:httpclient]
 
     notifications_uris = [u for (u, _body) in httpclient.posts]
-    @expect [endpoint_url] == notifications_uris
+
+    @expect endpoint_url in notifications_uris
 end

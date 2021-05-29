@@ -3,6 +3,7 @@ module Instances
 using Niancat.Persistence
 using Niancat.Gameface
 using Niancat.Http
+using Niancat.GameServiceImpl
 
 mutable struct GameInstances
     factory::Ref{Function}

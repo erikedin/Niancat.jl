@@ -109,23 +109,6 @@ abstract type GameService end
 score!(::GameService, ::User, ::Score) = error("Implement score! in GameService subtypes")
 notify!(::GameService, ::GameNotification) = error("Implement notify! in GameService subtypes")
 
-"""
-ConcreteGameService is merely the implementation of the `GameService` interface.
-The interface is abstract for testing purposes.
-"""
-struct ConcreteGameService <: GameService
-    instanceinfo::InstanceInfo
-    gameinstanceid::Int
-    persistence::GameEventPersistence
-    httpclient::HttpClient
-end
-
-score!(g::ConcreteGameService, user::User, score::Score) = score!(g.persistence, user, score)
-gameinstanceid(g::ConcreteGameService) = g.gameinstanceid
-
-function notify!(g::ConcreteGameService, notif::GameNotification)
-    endpoints = getnotificationendpoints(g.persistence, g.instanceinfo.databaseid)
-end
 
 export Game, Response, NoResponse, gamecommand, gameinstanceid, gameround, Score, GameEventPersistence
 export GameCommand, GameNotification
@@ -133,6 +116,5 @@ export InstanceInfo
 
 # GameService export
 export GameService, score!, notify!
-export ConcreteGameService
 
 end
