@@ -1,6 +1,7 @@
 module Gameface
 
 using Niancat.Users
+using Niancat.Http
 
 """
 Game represents a word game of some kind.
@@ -116,11 +117,15 @@ struct ConcreteGameService <: GameService
     instanceinfo::InstanceInfo
     gameinstanceid::Int
     persistence::GameEventPersistence
+    httpclient::HttpClient
 end
 
 score!(g::ConcreteGameService, user::User, score::Score) = score!(g.persistence, user, score)
-notify!(g::ConcreteGameService, notif::GameNotification) = nothing
 gameinstanceid(g::ConcreteGameService) = g.gameinstanceid
+
+function notify!(g::ConcreteGameService, notif::GameNotification)
+    endpoints = getnotificationendpoints(g.persistence, g.instanceinfo.databaseid)
+end
 
 export Game, Response, NoResponse, gamecommand, gameinstanceid, gameround, Score, GameEventPersistence
 export GameCommand, GameNotification
