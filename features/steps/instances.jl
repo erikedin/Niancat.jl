@@ -19,7 +19,7 @@ column(t::Behavior.Gherkin.DataTable) = [row[1] for row in t]
         "ORDPUSSEL",
         "PUSSGURKA",
     ])
-    registergame!(service, "Niancat", (_state) -> NiancatGame(dictionary, service.persistence))
+    registergame!(service, "Niancat", (_state, gameservice) -> NiancatGame(dictionary, gameservice))
     loadgameinstances!(service)
 
     context[:service] = service

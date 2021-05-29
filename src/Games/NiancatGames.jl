@@ -48,13 +48,12 @@ struct NotAWord <: Response
 end
 
 mutable struct NiancatGame <: Game
-    gameinstanceid::Int
+    service::GameService
     round::UUID
     dictionary::SwedishDictionary
     puzzle::Union{Nothing, String}
-    events::GameEventPersistence
 
-    NiancatGame(d::SwedishDictionary, events::GameEventPersistence) = new(1, uuid4(), d, nothing, events)
+    NiancatGame(d::SwedishDictionary, gameservice::GameService) = new(gameservice, uuid4(), d, nothing)
 end
 
 Gameface.gameround(game::NiancatGame) :: String = string(game.round)
@@ -82,7 +81,7 @@ end
 
 function Gameface.gamecommand(game::NiancatGame, user::User, guess::Guess) :: Response
     if guess.word.w in game.dictionary && isanagram(guess.word.w, game.puzzle)
-        record!(game.events, user, Score(1, string(game.round), normalizedword(game.dictionary, guess.word.w), 1))
+        score!(game.service, user, Score(1, string(game.round), normalizedword(game.dictionary, guess.word.w), 1))
         Correct(guess.word.w)
     else
         Incorrect(guess.word.w)

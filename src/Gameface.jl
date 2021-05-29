@@ -72,8 +72,6 @@ struct Score
     value::Float32
 end
 
-record!(::GameEventPersistence, ::User, ::Score) = error("Implement this in GameEventPersistence subtypes")
-
 """
 InstanceInfo encapsulates static, but not dynamic, information on an instance.
 
@@ -99,13 +97,22 @@ Each game instance has its own GameService object.
 For example, sending notifications to users from a game is done via the GameService.
 Recording user scores is done via the GameService.
 """
-struct GameService
+abstract type GameService end
+
+score!(::GameService, ::User, ::Score) = error("Implement this in GameService subtypes")
+
+"""
+ConcreteGameService is merely the implementation of the `GameService` interface.
+The interface is abstract for testing purposes.
+"""
+struct ConcreteGameService <: GameService
     instanceinfo::InstanceInfo
     gameinstanceid::Int
     persistence::GameEventPersistence
 end
 
-export Game, Response, NoResponse, gamecommand, gameinstanceid, gameround, Score, record!, GameEventPersistence
+export Game, Response, NoResponse, gamecommand, gameinstanceid, gameround, Score, score!, GameEventPersistence
 export GameCommand
+export GameService, InstanceInfo, ConcreteGameService
 
 end

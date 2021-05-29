@@ -2,7 +2,7 @@
     @testset "Puzzle is ORDPUSSLE; Setting ORDPUSSLE again; Rejected" begin
         # Arrange
         dictionary = SwedishDictionary(["ORDPUSSEL"])
-        game = NiancatGame(dictionary, NoopGameEventPersistence())
+        game = NiancatGame(dictionary, TestingGameService())
         team = Team(1, "defaultteam", "")
         user = User(1, "name", team)
         gamecommand(game, user, SetPuzzle("ORDPUSSLE"))
@@ -17,7 +17,7 @@
     @testset "Puzzle is ORDPUSSLE; Setting the puzzle to DATORSPLE; Allowed" begin
         # Arrange
         dictionary = SwedishDictionary(["ORDPUSSEL", "DATORSPEL"])
-        game = NiancatGame(dictionary, NoopGameEventPersistence())
+        game = NiancatGame(dictionary, TestingGameService())
         team = Team(1, "defaultteam", "")
         user = User(1, "name", team)
         gamecommand(game, user, SetPuzzle("ORDPUSSLE"))
@@ -32,7 +32,7 @@
     @testset "Puzzle is ORDPUSSLE; Setting the anagram ORDPUSLES; Rejected" begin
         # Arrange
         dictionary = SwedishDictionary(["ORDPUSSEL"])
-        game = NiancatGame(dictionary, NoopGameEventPersistence())
+        game = NiancatGame(dictionary, TestingGameService())
         team = Team(1, "defaultteam", "")
         user = User(1, "name", team)
         gamecommand(game, user, SetPuzzle("ORDPUSSLE"))
@@ -47,7 +47,7 @@
     @testset "Puzzle is ORDPUSSLE; Setting the non-normal ordpusles; Rejected" begin
         # Arrange
         dictionary = SwedishDictionary(["ORDPUSSEL"])
-        game = NiancatGame(dictionary, NoopGameEventPersistence())
+        game = NiancatGame(dictionary, TestingGameService())
         team = Team(1, "defaultteam", "")
         user = User(1, "name", team)
         gamecommand(game, user, SetPuzzle("ORDPUSSLE"))
@@ -62,7 +62,7 @@
     @testset "Puzzle has no solutions; Rejected" begin
         # Arrange
         dictionary = SwedishDictionary(["ORDPUSSEL"])
-        game = NiancatGame(dictionary, NoopGameEventPersistence())
+        game = NiancatGame(dictionary, TestingGameService())
         team = Team(1, "defaultteam", "")
         user = User(1, "name", team)
 
@@ -76,7 +76,7 @@
     @testset "Puzzle is rejected because of no solutions; The round is still the same" begin
         # Arrange
         dictionary = SwedishDictionary(["ORDPUSSEL"])
-        game = NiancatGame(dictionary, NoopGameEventPersistence())
+        game = NiancatGame(dictionary, TestingGameService())
         team = Team(1, "defaultteam", "")
         user = User(1, "name", team)
         gamecommand(game, user, SetPuzzle("ORDPUSSLE"))
@@ -93,7 +93,7 @@
     @testset "Puzzle is ORDPUSSLE; Setting the anagram ORDPUSLES; The round is unchanged" begin
         # Arrange
         dictionary = SwedishDictionary(["ORDPUSSEL"])
-        game = NiancatGame(dictionary, NoopGameEventPersistence())
+        game = NiancatGame(dictionary, TestingGameService())
         team = Team(1, "defaultteam", "")
         user = User(1, "name", team)
         gamecommand(game, user, SetPuzzle("ORDPUSSLE"))
@@ -110,7 +110,7 @@
     @testset "Puzzle is ORDPUSSLE; Setting the puzzle to DATORSPLE; The round is changed" begin
         # Arrange
         dictionary = SwedishDictionary(["ORDPUSSEL", "DATORSPEL"])
-        game = NiancatGame(dictionary, NoopGameEventPersistence())
+        game = NiancatGame(dictionary, TestingGameService())
         team = Team(1, "defaultteam", "")
         user = User(1, "name", team)
         gamecommand(game, user, SetPuzzle("ORDPUSSLE"))

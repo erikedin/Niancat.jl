@@ -6,13 +6,15 @@ using Niancat.Users
 using Niancat.Gameface
 
 struct GameInstanceDescription
+    instanceinfo::InstanceInfo
     gamename::String
-    instancename::String
+    gameinstanceid::Int
     state::String
 end
 
 function GameInstanceDescription(row)
-    GameInstanceDescription(row[:game_name], row[:instance_name], row[:game_state])
+    instanceinfo = InstanceInfo(row[:instance_id], row[:instance_name])
+    GameInstanceDescription(instanceinfo, row[:game_name], row[:game_instance_id], row[:game_state])
 end
 
 function initializedatabase!(db::SQLite.DB)
@@ -37,7 +39,11 @@ end
 
 function getgameinstances(persistence::GamePersistence) :: Vector{GameInstanceDescription}
     sql = """
-        SELECT instances.instance_name, games.game_name, gameinstances.game_state
+        SELECT
+            instances.instance_id, instances.instance_name,
+            games.game_name,
+            gameinstances.game_state,
+            gameinstances.game_instance_id
         FROM gameinstances
             JOIN games ON gameinstances.game_id = games.game_id
             JOIN instances ON gameinstances.instance_id = instances.instance_id;

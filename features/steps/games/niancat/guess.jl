@@ -4,6 +4,7 @@ using Niancat.Languages
 using Niancat.Games.NiancatGames
 using Niancat.Games.NiancatGames: Incorrect, Correct
 using Niancat.Games
+import Niancat.Gameface: score!
 
 struct ByColumnTable
     table::Gherkin.DataTable
@@ -17,14 +18,17 @@ column(t::ByColumnTable, n::Int = 1) = [row[n] for row in t.table]
     context[:dictionary] = SwedishDictionary(words)
 end
 
-# TODO: Eventually we'll want BDD requirements on scoring, and
-# then we'll have to replace this with a stub instead.
-struct NoopGameEventPersistence <: GameEventPersistence end
-Gameface.record!(::NoopGameEventPersistence, ::User, ::Score) = nothing
+struct TestingGameService <: GameService
+    scores::Vector{Tuple{User, Score}}
+
+    TestingGameService() = new([])
+end
+
+Gameface.score!(tgs::TestingGameService, user::User, score::Score) = push!(tgs.scores, (user, score))
 
 @given("a new game") do context
     dictionary = context[:dictionary]
-    game = NiancatGame(dictionary, NoopGameEventPersistence())
+    game = NiancatGame(dictionary, TestingGameService())
     context[:game] = game
 end
 

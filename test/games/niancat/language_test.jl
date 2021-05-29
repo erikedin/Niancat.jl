@@ -3,7 +3,7 @@
         @testset "Puzzle is pussgruka; User guesses PUSSGURKA; Guess is correct" begin
             # Arrange
             dictionary = SwedishDictionary(["pussgurka"])
-            game = NiancatGame(dictionary, NoopGameEventPersistence())
+            game = NiancatGame(dictionary, TestingGameService())
             team = Team(1, "defaultteam", "")
             user = User(1, "name", team)
             gamecommand(game, user, SetPuzzle("PUSSGRUKA"))
@@ -18,7 +18,7 @@
         @testset "Puzzle is PUSSGRUKA; User guesses pussgurka; Guess is correct" begin
             # Arrange
             dictionary = SwedishDictionary(["PUSSGURKA"])
-            game = NiancatGame(dictionary, NoopGameEventPersistence())
+            game = NiancatGame(dictionary, TestingGameService())
             team = Team(1, "defaultteam", "")
             user = User(1, "name", team)
             gamecommand(game, user, SetPuzzle("PUSSGRUKA"))
@@ -35,7 +35,7 @@
         @testset "Swedish Å" begin
             # Arrange
             dictionary = SwedishDictionary(["Å", "ÄR", "Ö"])
-            game = NiancatGame(dictionary, NoopGameEventPersistence())
+            game = NiancatGame(dictionary, TestingGameService())
             team = Team(1, "defaultteam", "")
             user = User(1, "name", team)
             gamecommand(game, user, SetPuzzle("Å"))
@@ -50,7 +50,7 @@
         @testset "Swedish Å doesn't match A" begin
             # Arrange
             dictionary = SwedishDictionary(["Å", "ÄR", "Ö"])
-            game = NiancatGame(dictionary, NoopGameEventPersistence())
+            game = NiancatGame(dictionary, TestingGameService())
             team = Team(1, "defaultteam", "")
             user = User(1, "name", team)
             gamecommand(game, user, SetPuzzle("Å"))
@@ -66,7 +66,7 @@
         @testset "Swedish ÄR" begin
             # Arrange
             dictionary = SwedishDictionary(["Å", "ÄR", "Ö"])
-            game = NiancatGame(dictionary, NoopGameEventPersistence())
+            game = NiancatGame(dictionary, TestingGameService())
             team = Team(1, "defaultteam", "")
             user = User(1, "name", team)
             gamecommand(game, user, SetPuzzle("ÄR"))
@@ -81,7 +81,7 @@
         @testset "Swedish ÄR doesn't match AR" begin
             # Arrange
             dictionary = SwedishDictionary(["Å", "ÄR", "Ö"])
-            game = NiancatGame(dictionary, NoopGameEventPersistence())
+            game = NiancatGame(dictionary, TestingGameService())
             team = Team(1, "defaultteam", "")
             user = User(1, "name", team)
             gamecommand(game, user, SetPuzzle("ÄR"))
@@ -97,7 +97,7 @@
         @testset "Swedish Ö" begin
             # Arrange
             dictionary = SwedishDictionary(["Å", "ÄR", "Ö"])
-            game = NiancatGame(dictionary, NoopGameEventPersistence())
+            game = NiancatGame(dictionary, TestingGameService())
             team = Team(1, "defaultteam", "")
             user = User(1, "name", team)
             gamecommand(game, user, SetPuzzle("Ö"))
@@ -112,7 +112,7 @@
         @testset "Swedish Ö doesn't match O" begin
             # Arrange
             dictionary = SwedishDictionary(["Å", "ÄR", "Ö"])
-            game = NiancatGame(dictionary, NoopGameEventPersistence())
+            game = NiancatGame(dictionary, TestingGameService())
             team = Team(1, "defaultteam", "")
             user = User(1, "name", team)
             gamecommand(game, user, SetPuzzle("Ö"))
@@ -133,7 +133,7 @@
             @testset "Word $word matches puzzle DATORSPLE" begin
                 # Arrange
                 dictionary = SwedishDictionary(["DATORSPEL"])
-                game = NiancatGame(dictionary, NoopGameEventPersistence())
+                game = NiancatGame(dictionary, TestingGameService())
                 team = Team(1, "defaultteam", "")
                 user = User(1, "name", team)
                 gamecommand(game, user, SetPuzzle("DATORSPLE"))
