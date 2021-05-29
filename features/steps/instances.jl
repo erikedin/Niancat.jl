@@ -1,6 +1,7 @@
 using Behavior
 using Niancat
 using Niancat.Games.NiancatGames
+using Niancat.Gameface: GameNotification
 using SQLite
 
 column(t::Behavior.Gherkin.DataTable) = [row[1] for row in t]
@@ -107,4 +108,25 @@ end
     loadgameinstances!(service)
 
     context[:service] = service
+end
+
+@given("that the team defaultteam updates the notification endpoint to {String}") do context, endpoint_url
+    service = context[:service]
+
+    updatenotificationendpoint(service, teamname, endpoint_url)
+end
+
+struct SomeFakeNotification <: GameNotification
+    msg::String
+end
+
+@when("a notification is sent for the instance defaultinstance") do context
+    service = context[:service]
+    instance = getinstance(service)
+
+    notify(instance, SomeFakeNotification("You are notified"))
+end
+
+@then("the notification is sent to {String}") do context, endpoint_url
+    @fail "Implement me"
 end

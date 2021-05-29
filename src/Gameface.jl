@@ -20,6 +20,17 @@ GameCommand represents any command sent to a game.
 abstract type GameCommand end
 
 """
+GameNotification is a message not sent as a response to a game command.
+
+# Example: A new puzzle
+A new puzzle can be set directly in the service, by a system user, and not via a chat
+channel like Slack or Discord. In this case, the game must notify the main channels for all teams
+in that instance, that a new puzzle is set, along with the scoreboard for the previous round.
+This is a notification, as it doesn't fit into the command/response flow.
+"""
+abstract type GameNotification end
+
+"""
     gamecommand(game::Game, user::User, command::GameCommand) :: Response
 
 `gamecommand` sends a command to a given game.
@@ -62,6 +73,37 @@ struct Score
 end
 
 record!(::GameEventPersistence, ::User, ::Score) = error("Implement this in GameEventPersistence subtypes")
+
+"""
+InstanceInfo encapsulates static, but not dynamic, information on an instance.
+
+# Example
+Instance name, and instance database id.
+
+Does not contain dynamic information, such as which teams belong to an instance.
+
+# Limitations
+Note that this implementation implies that instances cannot easily be renamed, as you would have
+to update the `instanceinfo` member on the `GameService` struct, which is immutable.
+The rename would only take full effect after game instances were reloaded.
+"""
+struct InstanceInfo
+    databaseid::Int
+    name::String
+end
+
+"""
+GameService is an interface between the games and the service.
+Each game instance has its own GameService object.
+
+For example, sending notifications to users from a game is done via the GameService.
+Recording user scores is done via the GameService.
+"""
+struct GameService
+    instanceinfo::InstanceInfo
+    gameinstanceid::Int
+    persistence::GameEventPersistence
+end
 
 export Game, Response, NoResponse, gamecommand, gameinstanceid, gameround, Score, record!, GameEventPersistence
 export GameCommand
