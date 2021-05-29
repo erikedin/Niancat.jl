@@ -48,7 +48,7 @@ declareinstance!(svc::NiancatService, instancename::String) = Persistence.declar
 listinstancenames(svc::NiancatService) :: Vector{String} = Persistence.listinstancenames(svc.persistence)
 
 Persistence.getuser(svc::NiancatService, userid::String, teamname::String) :: User = getuser(svc.persistence, userid, teamname)
-updateteamendpoint!(svc::NiancatService, teamname::String, uri::String) = updatenotificationendpoint!(svc.persistence, teamname, uri)
+updateteamendpoint!(svc::NiancatService, teamname::AbstractString, uri::AbstractString) = updatenotificationendpoint!(svc.persistence, teamname, uri)
 
 export NiancatService, findcommand, loadgameinstances!, declareinstance!, listinstancenames
 export getuser, updateteamendpoint!

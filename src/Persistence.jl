@@ -100,7 +100,7 @@ function declareinstance!(persistence::GamePersistence, instancename::String)
     DBInterface.execute(persistence.db, sql, (instancename,))
 end
 
-function updatenotificationendpoint!(persistence::GamePersistence, teamname::String, uri::String)
+function updatenotificationendpoint!(persistence::GamePersistence, teamname::AbstractString, uri::AbstractString)
     sql = """
         REPLACE INTO teamnotifications (team_id, uri)
         VALUES
