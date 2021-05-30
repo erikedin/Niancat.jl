@@ -4,7 +4,7 @@ using Niancat.Gameface
 using Niancat.Persistence
 using Niancat.Http
 using Niancat.Users
-import Niancat.Gameface: score!, gameinstanceid, notify!
+import Niancat.Gameface: score!, gameinstanceid, notify!, event!
 
 """
 ConcreteGameService is merely the implementation of the `GameService` interface.
@@ -26,6 +26,13 @@ function Gameface.notify!(g::ConcreteGameService, notif::GameNotification)
     for endpoint in endpoints
         post(g.httpclient, endpoint, string(notif))
     end
+end
+
+function Gameface.event!(g::ConcreteGameService, event::GameUserEvent)
+    recordevent!(g.persistence, g.gameinstanceid, event)
+end
+function Gameface.event!(g::ConcreteGameService, event::GameEvent)
+    recordevent!(g.persistence, g.gameinstanceid, event)
 end
 
 export ConcreteGameService

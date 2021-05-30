@@ -123,4 +123,24 @@
         # Assert
         @test roundbefore != roundafter
     end
+
+    @testset "Setting the puzzle to PUSSGUKRA; One solution; One solution event sent" begin
+        # Arrange
+        dictionary = SwedishDictionary(["PUSSGURKA"])
+        gameservice = TestingGameService()
+        game = NiancatGame(dictionary, gameservice)
+        team = Team(1, "defaultteam", "")
+        user = User(1, "name", team)
+
+        # Act
+        response = gamecommand(game, user, SetPuzzle("PUSSGUKRA"))
+
+        # Assert
+        @test length(gameservice.gameevents) != 0
+        event = lastgameevent(gameservice)
+        @test event.eventtype == Gameface.GameEvent_Solution
+        @test event.round == gameround(game)
+        @test event.data == normalizedword(dictionary, "PUSSGURKA")
+    end
+
 end

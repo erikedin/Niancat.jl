@@ -91,3 +91,24 @@ end
     @test length(gameservice.notifications) != 0
     @test lastnotification(gameservice) == CorrectNotification(user)
 end
+
+@testset "Puzzle is PUSSGRUKA; User guesses PUSSGURKA; Send a game event that the user solved it" begin
+    # Arrange
+    gameservice = TestingGameService()
+    dictionary = SwedishDictionary(["PUSSGURKA"])
+    game = NiancatGame(dictionary, gameservice)
+    team = Team(1, "defaultteam", "")
+    user = User(1, "name", team)
+    gamecommand(game, user, SetPuzzle("PUSSGRUKA"))
+
+    # Act
+    gamecommand(game, user, Guess("PUSSGURKA"))
+
+    # Assert
+    @test length(gameservice.userevents) != 0
+    event = lastuserevent(gameservice)
+    @test event.eventtype == Gameface.UserEvent_Solution
+    @test event.user == user
+    @test event.round == gameround(game)
+    @test event.data == normalizedword(dictionary, "PUSSGURKA")
+end

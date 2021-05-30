@@ -69,3 +69,24 @@ CREATE TABLE scores
     timestamp           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(game_instance_id, user_id, round, score_key)
 );
+
+CREATE TABLE userevents
+(
+    event_id            INTEGER PRIMARY KEY,
+    game_instance_id    INTEGER NOT NULL    REFERENCES gamesinstances(game_instance_id),
+    user_id             INTEGER NOT NULL    REFERENCES users(user_id),
+    round               TEXT NOT NULL,
+    event_type          INTEGER NOT NULL,
+    event_data          TEXT NOT NULL,
+    timestamp           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE gameevents
+(
+    event_id            INTEGER PRIMARY KEY,
+    game_instance_id    INTEGER NOT NULL    REFERENCES gamesinstances(game_instance_id),
+    round               TEXT NOT NULL,
+    event_type          INTEGER NOT NULL,
+    event_data          TEXT NOT NULL,
+    timestamp           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

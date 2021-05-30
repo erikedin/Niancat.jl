@@ -125,7 +125,29 @@ function getnotificationendpoints(persistence::GamePersistence, instancedatabase
     [row[:uri] for row in results]
 end
 
+function recordevent!(persistence::GamePersistence, gameinstanceid::Int, event::GameUserEvent)
+    sql = """
+        INSERT INTO userevents
+            (game_instance_id, user_id, round, event_type, event_data)
+        VALUES
+            (?,                ?,       ?,     ?,          ?);
+    """
+    params = (gameinstanceid, event.user.databaseid, event.round, event.eventtype, event.data)
+    DBInterface.execute(persistence.db, sql, params)
+end
+
+function recordevent!(persistence::GamePersistence, gameinstanceid::Int, event::GameEvent)
+    sql = """
+        INSERT INTO gameevents
+            (game_instance_id, round, event_type, event_data)
+        VALUES
+            (?,                ?,     ?,          ?);
+    """
+    params = (gameinstanceid, event.round, event.eventtype, event.data)
+    DBInterface.execute(persistence.db, sql, params)
+end
+
 export GamePersistence, GameInstanceDescription, getgameinstances, getuser, initializedatabase!
-export updatenotificationendpoint!, getnotificationendpoints
+export updatenotificationendpoint!, getnotificationendpoints, recordevent!
 
 end

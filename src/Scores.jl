@@ -68,6 +68,20 @@ end
 
 hasuser(scoreboard::Scoreboard, user::User) :: Bool = any(((u, _s), ) -> u == user, scoreboard.scores)
 
-export Scoreboard, getscoreboard, record!, Score, UserScore, userscore, hasuser
+struct Solutionboard
+    solutions::Dict{String, Vector{User}}
+
+    Solutionboard() = new(Dict{String, Vector{String}}())
+end
+
+function getsolutionboard(game::Game, round::String) :: Solutionboard
+    board = Solutionboard()
+
+    #results = DBInterface.execute(persistence.db, sql, (gameinstanceid(game), gameround(game)))
+
+    board
+end
+
+export Scoreboard, getscoreboard, record!, Score, UserScore, userscore, hasuser, getsolutionboard
 
 end

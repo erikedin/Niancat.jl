@@ -87,6 +87,9 @@ function Gameface.gamecommand(game::NiancatGame, ::User, setpuzzle::SetPuzzle) :
     end
     game.puzzle = setpuzzle.puzzle
     game.round = uuid4()
+    # TODO Implement correctly
+    solution = "pussgurka"
+    event!(game.gameservice, GameEvent(Gameface.GameEvent_Solution, string(game.round), solution))
     NewPuzzle(game.puzzle)
 end
 
@@ -100,7 +103,9 @@ end
 
 function Gameface.gamecommand(game::NiancatGame, user::User, guess::Guess) :: Response
     if guess.word.w in game.dictionary && isanagram(guess.word.w, game.puzzle)
-        score!(game.gameservice, user, Score(1, string(game.round), normalizedword(game.dictionary, guess.word.w), 1))
+        solution = normalizedword(game.dictionary, guess.word.w)
+        score!(game.gameservice, user, Score(1, string(game.round), solution, 1))
+        event!(game.gameservice, GameUserEvent(Gameface.UserEvent_Solution, user, string(game.round), solution))
         notify!(game.gameservice, CorrectNotification(user))
         Correct(guess.word.w)
     else

@@ -38,27 +38,38 @@ end
     context[:user] = user
 end
 
-@when("Erik solves the puzzle with word {String}") do context, word
-    user = context[:user]
+@given("these users in the default team") do context
+    db = context[:db]
+
+    usernames = column(context.datatable)
+
+    users = [getuser(db, username, "defaultteam")
+             for username in usernames]
+    context[:users] = users
+end
+
+@when("{String} solves the puzzle with word {String}") do context, username, word
+    db = context[:db]
+    user = getuser(db, username, "defaultteam")
 
     response = gamecommand(context[:game], user, Guess(word))
     context[:response] = response
 end
 
-@then("Erik has score {Int} in the scoreboard for Niancat") do context, points
-    user = context[:user]
-    niancat = context[:game]
+@then("{String} has score {Int} in the scoreboard for Niancat") do context, username, points
     db = context[:db]
+    user = getuser(db, username, "defaultteam")
+    niancat = context[:game]
 
     scoreboard = getscoreboard(db, niancat)
 
     @expect userscore(scoreboard, user) == points
 end
 
-@then("Erik is not in the scoreboard") do context
-    user = context[:user]
-    niancat = context[:game]
+@then("{String} is not in the scoreboard") do context, username
     db = context[:db]
+    user = getuser(db, username, "defaultteam")
+    niancat = context[:game]
 
     scoreboard = getscoreboard(db, niancat)
 

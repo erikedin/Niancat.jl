@@ -31,6 +31,22 @@ This is a notification, as it doesn't fit into the command/response flow.
 """
 abstract type GameNotification end
 
+struct GameUserEvent
+    eventtype::Int
+    user::User
+    round::String
+    data::String
+end
+
+const UserEvent_Solution = 1
+const GameEvent_Solution = 1
+
+struct GameEvent
+    eventtype::Int
+    round::String
+    data::String
+end
+
 """
     gamecommand(game::Game, user::User, command::GameCommand) :: Response
 
@@ -108,6 +124,8 @@ abstract type GameService end
 
 score!(::GameService, ::User, ::Score) = error("Implement score! in GameService subtypes")
 notify!(::GameService, ::GameNotification) = error("Implement notify! in GameService subtypes")
+event!(::GameService, ::GameUserEvent) = error("Implement event! for GameUserEvent in GameService subtypes")
+event!(::GameService, ::GameEvent) = error("Implement event! for GameEvent in GameService subtypes")
 
 
 export Game, Response, NoResponse, gamecommand, gameinstanceid, gameround, Score, GameEventPersistence
@@ -116,5 +134,8 @@ export InstanceInfo
 
 # GameService export
 export GameService, score!, notify!
+
+# Events
+export event!, GameUserEvent, GameEvent
 
 end
