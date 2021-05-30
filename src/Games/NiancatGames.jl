@@ -82,14 +82,16 @@ function Gameface.gamecommand(game::NiancatGame, ::User, setpuzzle::SetPuzzle) :
     if game.puzzle !== nothing && isanagram(game.puzzle, setpuzzle.puzzle)
         return Rejected()
     end
-    if findanagrams(game.dictionary, setpuzzle.puzzle) == []
+    solutions = findanagrams(game.dictionary, setpuzzle.puzzle)
+    if solutions == []
         return Rejected()
     end
     game.puzzle = setpuzzle.puzzle
     game.round = uuid4()
-    # TODO Implement correctly
-    solution = "pussgurka"
-    event!(game.gameservice, GameEvent(Gameface.GameEvent_Solution, string(game.round), solution))
+
+    for solution in solutions
+        event!(game.gameservice, GameEvent(Gameface.GameEvent_Solution, string(game.round), solution))
+    end
     NewPuzzle(game.puzzle)
 end
 

@@ -143,4 +143,23 @@
         @test event.data == normalizedword(dictionary, "PUSSGURKA")
     end
 
+    @testset "Setting the puzzle to DATORSPLE; Two solutions; Two solution events sent" begin
+        # Arrange
+        dictionary = SwedishDictionary(["DATORSPEL", "LEDARPOST"])
+        gameservice = TestingGameService()
+        game = NiancatGame(dictionary, gameservice)
+        team = Team(1, "defaultteam", "")
+        user = User(1, "name", team)
+
+        # Act
+        response = gamecommand(game, user, SetPuzzle("DATORSPLE"))
+
+        # Assert
+        @test length(gameservice.gameevents) >= 2
+        solutions = [event.data
+                     for event in gameservice.gameevents
+                     if event.eventtype == Gameface.GameEvent_Solution]
+        sortedsolutions = sort(solutions)
+        @test sortedsolutions == ["datorspel", "ledarpost"]
+    end
 end

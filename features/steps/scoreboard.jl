@@ -22,6 +22,7 @@ using SQLite
         "ORDPUSSEL",
         "PUSSGURKA",
     ])
+    context[:dictionary] = dictionary
     registergame!(service, "Niancat", (_state, gameservice) -> NiancatGame(dictionary, gameservice))
 
     loadgameinstances!(service)
