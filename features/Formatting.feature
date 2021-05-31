@@ -10,3 +10,11 @@ Feature: Formatting messages
             """
             Ordet PUSSGURKA är korrekt!
             """
+    
+    Scenario: Slack formatting of a notification
+        Given that the team defaultteam uses Slack formatting in Swedish
+         When the notification CorrectNotification for user Erik is formatted
+         Then the formatted response is
+            """
+            Erik löste nian!
+            """

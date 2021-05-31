@@ -51,10 +51,6 @@ struct NewPuzzle <: Response
     puzzle::String
 end
 
-struct NotAWord <: Response
-    puzzle::String
-end
-
 #
 # Notifications
 #

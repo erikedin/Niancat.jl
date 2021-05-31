@@ -15,13 +15,23 @@ end
     formatter = getformatter(service, "defaultteam")
     response = NiancatGames.Correct("PUSSGURKA")
 
-    context[:formattedresponse] = format(formatter, response)
+    context[:text] = format(formatter, response)
+end
+
+@when("the notification CorrectNotification for user Erik is formatted") do context
+    service = context[:service]
+
+    user = getuser(service, "Erik", "defaultteam")
+    notification = NiancatGames.CorrectNotification(user)
+
+    formatter = getformatter(service, "defaultteam")
+    context[:text] = format(formatter, notification)
 end
 
 @then("the formatted response is") do context
-    text = context[:block_text]
+    expected = context[:block_text]
 
-    response = context[:formattedresponse]
+    response = context[:text]
 
-    @expect text == response
+    @expect response == expected
 end

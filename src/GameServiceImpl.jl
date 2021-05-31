@@ -4,6 +4,7 @@ using Niancat.Gameface
 using Niancat.Persistence
 using Niancat.Http
 using Niancat.Users
+using Niancat.Formatters
 import Niancat.Gameface: score!, gameinstanceid, notify!, event!
 
 """
@@ -23,8 +24,15 @@ Gameface.gameinstanceid(g::ConcreteGameService) = g.gameinstanceid
 function Gameface.notify!(g::ConcreteGameService, notif::GameNotification)
     endpoints = getnotificationendpoints(g.persistence, g.instanceinfo.databaseid)
 
+    # TODO A real implementation should get the formatter for each team
+    #      and format the notification accordingly.
+    #      This skeleton implementation just uses a SlackFormatter.
+
+    formatter = SlackFormatter()
+    text = format(formatter, notif)
+
     for endpoint in endpoints
-        post(g.httpclient, endpoint, string(notif))
+        post(g.httpclient, endpoint, text)
     end
 end
 
