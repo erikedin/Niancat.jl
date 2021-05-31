@@ -115,6 +115,8 @@ function Gameface.gamecommand(game::NiancatGame, user::User, guess::Guess) :: Re
     end
 end
 
+include("NiancatFormatting.jl")
+
 export NiancatGame
 
 end
