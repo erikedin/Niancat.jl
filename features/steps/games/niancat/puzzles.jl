@@ -7,14 +7,14 @@ using Niancat.Games
 
 @when("the puzzle is set to {String}") do context, puzzle
     team = Team(1, "defaultteam", "")
-    user = User(1, "name", team)
+    user = User(1, "name", "displayname", team)
     response = gamecommand(context[:game], user, SetPuzzle(puzzle))
     context[:response] = response
 end
 
 @when("a user asks for the puzzle") do context
     team = Team(1, "defaultteam", "")
-    user = User(1, "name", team)
+    user = User(1, "name", "displayname", team)
     response = gamecommand(context[:game], user, GetPuzzle())
     context[:response] = response
 end

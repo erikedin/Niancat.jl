@@ -30,9 +30,10 @@ function builduser(row)
     team = Team(teamdatabaseid, teamname, teamicon)
 
     userdatabaseid = row[:user_id]
+    displayname = row[:display_name]
     teamuserid = row[:team_user_id]
 
-    User(userdatabaseid, teamuserid, team)
+    User(userdatabaseid, teamuserid, displayname, team)
 end
 
 function getscoreboard(persistence::GamePersistence, game::Game) :: Scoreboard
@@ -42,6 +43,7 @@ function getscoreboard(persistence::GamePersistence, game::Game) :: Scoreboard
             scores.user_id,
             SUM(scores.points) AS score,
             users.team_user_id,
+            users.display_name,
             teams.team_id,
             teams.team_name,
             teams.icon
@@ -90,7 +92,7 @@ function getsolutionboard(persistence::GamePersistence, game::Game, round::Strin
 
     # Fetch all user solutions
     sql = """
-        SELECT userevents.user_id, userevents.event_data, users.team_user_id, teams.team_id, teams.team_name, teams.icon
+        SELECT userevents.user_id, userevents.event_data, users.team_user_id, users.display_name, teams.team_id, teams.team_name, teams.icon
         FROM userevents
         JOIN users ON users.user_id = userevents.user_id
         JOIN teams ON users.team_id = teams.team_id

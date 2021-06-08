@@ -5,7 +5,7 @@
     game = NiancatGame(dictionary, gameservice)
 
     team = Team(1, "defaultteam", "")
-    user = User(1, "name", team)
+    user = User(1, "name", "displayname", team)
     gamecommand(game, user, SetPuzzle("DATORSPLE"))
 
     # Act
@@ -25,7 +25,7 @@ end
     game = NiancatGame(dictionary, gameservice)
 
     team = Team(1, "defaultteam", "")
-    user = User(1, "name", team)
+    user = User(1, "name", "displayname", team)
     gamecommand(game, user, SetPuzzle("DATORSPLE"))
 
     # Act
@@ -42,7 +42,7 @@ end
     game = NiancatGame(dictionary, gameservice)
 
     team = Team(1, "defaultteam", "")
-    user = User(1, "name", team)
+    user = User(1, "name", "displayname", team)
     gamecommand(game, user, SetPuzzle("DATORSPLE"))
 
     # Act
@@ -64,7 +64,7 @@ end
     game = NiancatGame(dictionary, gameservice)
 
     team = Team(1, "defaultteam", "")
-    user = User(1, "name", team)
+    user = User(1, "name", "displayname", team)
     gamecommand(game, user, SetPuzzle("DATORSPLE"))
 
     # Act
@@ -86,7 +86,7 @@ end
     game = NiancatGame(dictionary, gameservice)
 
     team = Team(1, "defaultteam", "")
-    user = User(1, "name", team)
+    user = User(1, "name", "displayname", team)
     gamecommand(game, user, SetPuzzle("DATORSPLE"))
 
     # Act
@@ -108,7 +108,7 @@ end
     game = NiancatGame(dictionary, gameservice)
 
     team = Team(1, "defaultteam", "")
-    user = User(1, "name", team)
+    user = User(1, "name", "displayname", team)
     gamecommand(game, user, SetPuzzle("DATORSPLE"))
 
     # Act
@@ -130,7 +130,7 @@ end
     game = NiancatGame(dictionary, gameservice)
 
     team = Team(1, "defaultteam", "")
-    user = User(1, "name", team)
+    user = User(1, "name", "displayname", team)
 
     # Act
     gamecommand(game, user, SetPuzzle("DATORSPLE"))

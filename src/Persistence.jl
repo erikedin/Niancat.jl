@@ -66,7 +66,7 @@ function getuser(persistence::GamePersistence, userid::String, teamname::String)
     DBInterface.execute(persistence.db, sql, (userid, teamname, userid))
 
     getsql = """
-    SELECT users.user_id, users.team_id, teams.icon
+    SELECT users.user_id, users.team_id, users.display_name, teams.icon
     FROM users JOIN teams ON users.team_id = teams.team_id
     WHERE
         users.team_user_id = ? AND
@@ -78,10 +78,20 @@ function getuser(persistence::GamePersistence, userid::String, teamname::String)
 
     userdatabaseid = row[1]
     teamdatabaseid = row[2]
-    teamicon = row[3]
+    displayname = row[3]
+    teamicon = row[4]
     team = Team(teamdatabaseid, teamname, teamicon)
 
-    User(userdatabaseid, userid, team)
+    User(userdatabaseid, userid, displayname, team)
+end
+
+function updatedisplayname!(persistence::GamePersistence, user::User, displayname::String)
+    sql = """
+        UPDATE users
+        SET display_name = ?
+        WHERE user_id = ?
+    """
+    DBInterface.execute(persistence.db, sql, (displayname, user.databaseid))
 end
 
 function listinstancenames(persistence::GamePersistence) :: Vector{String}
@@ -149,5 +159,6 @@ end
 
 export GamePersistence, GameInstanceDescription, getgameinstances, getuser, initializedatabase!
 export updatenotificationendpoint!, getnotificationendpoints, recordevent!
+export updatedisplayname!
 
 end

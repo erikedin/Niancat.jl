@@ -4,7 +4,7 @@
     dictionary = SwedishDictionary(["DATORSPEL"])
     game = NiancatGame(dictionary, TestingGameService())
     team = Team(1, "defaultteam", "")
-    user = User(1, "name", team)
+    user = User(1, "name", "displayname", team)
     gamecommand(game, user, SetPuzzle("DATORSPLE"))
 
     # Act
@@ -19,7 +19,7 @@ end
     dictionary = SwedishDictionary(["DATORSPEL"])
     game = NiancatGame(dictionary, TestingGameService())
     team = Team(1, "defaultteam", "")
-    user = User(1, "name", team)
+    user = User(1, "name", "displayname", team)
     gamecommand(game, user, SetPuzzle("DATORSPLE"))
 
     # Act
@@ -34,7 +34,7 @@ end
     dictionary = SwedishDictionary(["DATORSPEL", "LEDARPOST"])
     game = NiancatGame(dictionary, TestingGameService())
     team = Team(1, "defaultteam", "")
-    user = User(1, "name", team)
+    user = User(1, "name", "displayname", team)
     gamecommand(game, user, SetPuzzle("DATORSPLE"))
 
     # Act
@@ -49,7 +49,7 @@ end
     dictionary = SwedishDictionary(["PUSSGURKA"])
     game = NiancatGame(dictionary, TestingGameService())
     team = Team(1, "defaultteam", "")
-    user = User(1, "name", team)
+    user = User(1, "name", "displayname", team)
     gamecommand(game, user, SetPuzzle("PUSSGRUKA"))
 
     # Act
@@ -64,7 +64,7 @@ end
     dictionary = SwedishDictionary(["DATORSPEL", "PUSSGURKA"])
     game = NiancatGame(dictionary, TestingGameService())
     team = Team(1, "defaultteam", "")
-    user = User(1, "name", team)
+    user = User(1, "name", "displayname", team)
     gamecommand(game, user, SetPuzzle("PUSSGRUKA"))
 
     # Act
@@ -81,7 +81,7 @@ end
     dictionary = SwedishDictionary(["PUSSGURKA"])
     game = NiancatGame(dictionary, gameservice)
     team = Team(1, "defaultteam", "")
-    user = User(1, "name", team)
+    user = User(1, "name", "displayname", team)
     gamecommand(game, user, SetPuzzle("PUSSGRUKA"))
 
     # Act
@@ -98,7 +98,7 @@ end
     dictionary = SwedishDictionary(["PUSSGURKA"])
     game = NiancatGame(dictionary, gameservice)
     team = Team(1, "defaultteam", "")
-    user = User(1, "name", team)
+    user = User(1, "name", "displayname", team)
     gamecommand(game, user, SetPuzzle("PUSSGRUKA"))
 
     # Act

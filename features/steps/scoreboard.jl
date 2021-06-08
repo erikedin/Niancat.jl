@@ -32,10 +32,10 @@ using SQLite
 
 end
 
-@given("a user Erik in the default team") do context
+@given("a user {String} in the default team") do context, userid
     db = context[:db]
 
-    user = getuser(db, "Erik", "defaultteam")
+    user = getuser(db, userid, "defaultteam")
     context[:user] = user
 end
 

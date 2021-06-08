@@ -4,7 +4,7 @@
         dictionary = SwedishDictionary(["ORDPUSSEL"])
         game = NiancatGame(dictionary, TestingGameService())
         team = Team(1, "defaultteam", "")
-        user = User(1, "name", team)
+        user = User(1, "name", "displayname", team)
         gamecommand(game, user, SetPuzzle("ORDPUSSLE"))
 
         # Act
@@ -19,7 +19,7 @@
         dictionary = SwedishDictionary(["ORDPUSSEL", "DATORSPEL"])
         game = NiancatGame(dictionary, TestingGameService())
         team = Team(1, "defaultteam", "")
-        user = User(1, "name", team)
+        user = User(1, "name", "displayname", team)
         gamecommand(game, user, SetPuzzle("ORDPUSSLE"))
 
         # Act
@@ -34,7 +34,7 @@
         dictionary = SwedishDictionary(["ORDPUSSEL"])
         game = NiancatGame(dictionary, TestingGameService())
         team = Team(1, "defaultteam", "")
-        user = User(1, "name", team)
+        user = User(1, "name", "displayname", team)
         gamecommand(game, user, SetPuzzle("ORDPUSSLE"))
 
         # Act
@@ -49,7 +49,7 @@
         dictionary = SwedishDictionary(["ORDPUSSEL"])
         game = NiancatGame(dictionary, TestingGameService())
         team = Team(1, "defaultteam", "")
-        user = User(1, "name", team)
+        user = User(1, "name", "displayname", team)
         gamecommand(game, user, SetPuzzle("ORDPUSSLE"))
 
         # Act
@@ -64,7 +64,7 @@
         dictionary = SwedishDictionary(["ORDPUSSEL"])
         game = NiancatGame(dictionary, TestingGameService())
         team = Team(1, "defaultteam", "")
-        user = User(1, "name", team)
+        user = User(1, "name", "displayname", team)
 
         # Act
         response = gamecommand(game, user, SetPuzzle("DATORSPLE"))
@@ -78,7 +78,7 @@
         dictionary = SwedishDictionary(["ORDPUSSEL"])
         game = NiancatGame(dictionary, TestingGameService())
         team = Team(1, "defaultteam", "")
-        user = User(1, "name", team)
+        user = User(1, "name", "displayname", team)
         gamecommand(game, user, SetPuzzle("ORDPUSSLE"))
         roundbefore = gameround(game)
 
@@ -95,7 +95,7 @@
         dictionary = SwedishDictionary(["ORDPUSSEL"])
         game = NiancatGame(dictionary, TestingGameService())
         team = Team(1, "defaultteam", "")
-        user = User(1, "name", team)
+        user = User(1, "name", "displayname", team)
         gamecommand(game, user, SetPuzzle("ORDPUSSLE"))
         roundbefore = gameround(game)
 
@@ -112,7 +112,7 @@
         dictionary = SwedishDictionary(["ORDPUSSEL", "DATORSPEL"])
         game = NiancatGame(dictionary, TestingGameService())
         team = Team(1, "defaultteam", "")
-        user = User(1, "name", team)
+        user = User(1, "name", "displayname", team)
         gamecommand(game, user, SetPuzzle("ORDPUSSLE"))
         roundbefore = gameround(game)
 
@@ -130,7 +130,7 @@
         gameservice = TestingGameService()
         game = NiancatGame(dictionary, gameservice)
         team = Team(1, "defaultteam", "")
-        user = User(1, "name", team)
+        user = User(1, "name", "displayname", team)
 
         # Act
         response = gamecommand(game, user, SetPuzzle("PUSSGUKRA"))
@@ -149,7 +149,7 @@
         gameservice = TestingGameService()
         game = NiancatGame(dictionary, gameservice)
         team = Team(1, "defaultteam", "")
-        user = User(1, "name", team)
+        user = User(1, "name", "displayname", team)
 
         # Act
         response = gamecommand(game, user, SetPuzzle("DATORSPLE"))
@@ -168,7 +168,7 @@
         dictionary = SwedishDictionary(["ORDPUSSEL"])
         game = NiancatGame(dictionary, TestingGameService())
         team = Team(1, "defaultteam", "")
-        user = User(1, "name", team)
+        user = User(1, "name", "displayname", team)
 
         # Act
         response = gamecommand(game, user, SetPuzzle("ORDPUSSLE"))
