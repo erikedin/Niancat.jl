@@ -8,4 +8,4 @@ format(::SlackFormatter, r::Incorrect) = "Ordet $(r.word.w) finns inte med i SAO
 format(::SlackFormatter, r::Rejected) = "Inte ett giltigt pussel."
 format(::SlackFormatter, r::NewPuzzle) = "Nya pusslet är $(r.puzzle)."
 
-format(::SlackFormatter, r::CorrectNotification) = "$(r.user.userid) löste nian!"
+format(::SlackFormatter, r::CorrectNotification) = "$(r.user) löste nian!"
