@@ -162,4 +162,18 @@
         sortedsolutions = sort(solutions)
         @test sortedsolutions == ["datorspel", "ledarpost"]
     end
+
+    @testset "Puzzle is not set; Setting ORDPUSSLE; NewPuzzle response sent" begin
+        # Arrange
+        dictionary = SwedishDictionary(["ORDPUSSEL"])
+        game = NiancatGame(dictionary, TestingGameService())
+        team = Team(1, "defaultteam", "")
+        user = User(1, "name", team)
+
+        # Act
+        response = gamecommand(game, user, SetPuzzle("ORDPUSSLE"))
+
+        # Assert
+        @test response isa NewPuzzle
+    end
 end
