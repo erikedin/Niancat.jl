@@ -6,9 +6,9 @@ include("Http.jl")
 include("Gameface.jl")
 include("Formatters.jl")
 include("Persistence.jl")
+include("Scores.jl")
 include("GameServiceImpl.jl")
 include("Instances.jl")
-include("Scores.jl")
 
 module Games
 include("Games/NiancatGames.jl")

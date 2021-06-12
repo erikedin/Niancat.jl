@@ -3,6 +3,7 @@ module Scores
 using Niancat.Users
 using Niancat.Persistence
 using Niancat.Gameface
+using Niancat.Formatters
 import Niancat.Gameface: score!
 using SQLite
 
@@ -77,7 +78,7 @@ struct Solutionboard
     Solutionboard() = new(Dict{String, Vector{String}}())
 end
 
-function getsolutionboard(persistence::GamePersistence, game::Game, round::String) :: Solutionboard
+function getsolutionboard(persistence::GamePersistence, instanceid::Int, round::String) :: Solutionboard
     board = Solutionboard()
 
     # Fetch all possible solutions
@@ -86,7 +87,7 @@ function getsolutionboard(persistence::GamePersistence, game::Game, round::Strin
         FROM gameevents
         WHERE game_instance_id = ? AND round = ? AND event_type = ?;
     """
-    wordsparams = (gameinstanceid(game), round, Gameface.GameEvent_Solution)
+    wordsparams = (instanceid, round, Gameface.GameEvent_Solution)
     wordsresults = DBInterface.execute(persistence.db, wordssql, wordsparams)
     allsolutions = [row[:event_data] for row in wordsresults]
 
@@ -98,7 +99,7 @@ function getsolutionboard(persistence::GamePersistence, game::Game, round::Strin
         JOIN teams ON users.team_id = teams.team_id
         WHERE userevents.game_instance_id = ? AND userevents.round = ? AND userevents.event_type = ?;
     """
-    params = (gameinstanceid(game), round, Gameface.UserEvent_Solution)
+    params = (instanceid, round, Gameface.UserEvent_Solution)
     usersolutionresults = DBInterface.execute(persistence.db, sql, params)
     usersolutions = [(builduser(row), row[:event_data]) for row in usersolutionresults]
 
@@ -114,6 +115,38 @@ function getsolutionboard(persistence::GamePersistence, game::Game, round::Strin
     board
 end
 
+##
+## Notifications
+##
+
+struct SolutionboardNotification <: GameNotification
+    instanceid::Int
+    round::String
+end
+
+##
+## Formatting
+##
+function formatsolution(word::String, users::Vector{User}) :: String
+    usertext = join(["$(u)" for u in users], ",")
+    # TODO This should technically be done in the language module.
+    wordtext = uppercase(word)
+    "$(wordtext): $(usertext)"
+end
+
+function Formatters.format(::SlackFormatter, board::Solutionboard)
+    solutions = [
+        formatsolution(word, users)
+        for (word, users) in board.solutions
+    ]
+    join(solutions, "\n")
+end
+
+##
+## Export
+##
+
 export Scoreboard, getscoreboard, record!, Score, UserScore, userscore, hasuser, getsolutionboard
+export SolutionboardNotification
 
 end

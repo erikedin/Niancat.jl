@@ -39,6 +39,10 @@ Http.post(c::FakeHttpClient, uri::String, body::String) = push!(c.posts, (uri, b
     registergame!(service, "Niancat", (_state, gameservice) -> NiancatGame(dictionary, gameservice))
     loadgameinstances!(service)
 
+    # Set a fake notification endpoint for the default team
+    endpoint_url = "https://niancat.test/notification"
+    updateteamendpoint!(service, "defaultteam", endpoint_url)
+
     context[:service] = service
     context[:httpclient] = httpclient
     context[:db] = service.persistence

@@ -10,7 +10,7 @@ using Niancat.Scores
     db = context[:db]
     dictionary = context[:dictionary]
 
-    board = getsolutionboard(db, game, gameround(game))
+    board = getsolutionboard(db, gameinstanceid(game), gameround(game))
 
     users = board.solutions[normalizedword(dictionary, word)]
     expecteduser = getuser(db, username, "defaultteam")
@@ -23,7 +23,7 @@ end
     db = context[:db]
     dictionary = context[:dictionary]
 
-    board = getsolutionboard(db, game, gameround(game))
+    board = getsolutionboard(db, gameinstanceid(game), gameround(game))
 
     users = board.solutions[normalizedword(dictionary, word)]
     expecteduser = getuser(db, username, "defaultteam")
