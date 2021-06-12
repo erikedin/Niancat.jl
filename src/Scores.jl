@@ -36,7 +36,7 @@ function builduser(row)
     User(userdatabaseid, teamuserid, displayname, team)
 end
 
-function getscoreboard(persistence::GamePersistence, game::Game) :: Scoreboard
+function getscoreboard(persistence::GamePersistence, instanceid::Int, round::String) :: Scoreboard
 
     sql = """
         SELECT
@@ -54,7 +54,7 @@ function getscoreboard(persistence::GamePersistence, game::Game) :: Scoreboard
           AND scores.round = ?
         GROUP BY scores.user_id;
     """
-    results = DBInterface.execute(persistence.db, sql, (gameinstanceid(game), gameround(game)))
+    results = DBInterface.execute(persistence.db, sql, (instanceid, round))
 
     scores = UserScore[(builduser(row), row[:score]) for row in results]
 

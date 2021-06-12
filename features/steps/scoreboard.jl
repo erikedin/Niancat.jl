@@ -62,7 +62,10 @@ end
     user = getuser(db, username, "defaultteam")
     niancat = context[:game]
 
-    scoreboard = getscoreboard(db, niancat)
+    instanceid = gameinstanceid(niancat)
+    round = gameround(niancat)
+
+    scoreboard = getscoreboard(db, instanceid, round)
 
     @expect userscore(scoreboard, user) == points
 end
@@ -72,7 +75,10 @@ end
     user = getuser(db, username, "defaultteam")
     niancat = context[:game]
 
-    scoreboard = getscoreboard(db, niancat)
+    instanceid = gameinstanceid(niancat)
+    round = gameround(niancat)
+
+    scoreboard = getscoreboard(db, instanceid, round)
 
     @expect hasuser(scoreboard, user) == false
 end
