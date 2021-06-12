@@ -2,7 +2,7 @@ Feature: Solutions
     The solution board shows who solved which puzzle in a given round.
 
     Background: Setting up a game
-        Given a game of Niancat in the default instance
+        Given a default Niancat service
           And these users in the default team
             | Erik    |
             | Jenna   |

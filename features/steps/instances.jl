@@ -8,35 +8,6 @@ using SQLite
 
 column(t::Behavior.Gherkin.DataTable) = [row[1] for row in t]
 
-struct FakeHttpClient <: HttpClient
-    posts::Vector{Tuple{String, String}}
-
-    FakeHttpClient() = new([])
-end
-
-Http.post(c::FakeHttpClient, uri::String, body::String) = push!(c.posts, (uri, body))
-
-@given("a default Niancat service") do context
-    sqlitedb = SQLite.DB()
-    httpclient = FakeHttpClient()
-    context[:httpclient] = httpclient
-    service = NiancatService(sqlitedb, httpclient=httpclient)
-
-    # TODO This ought to be done by other means as soon
-    #      as those means exist.
-    # Load the default Niancat.
-    dictionary = SwedishDictionary([
-        "DATORSPEL",
-        "LEDARPOST",
-        "ORDPUSSEL",
-        "PUSSGURKA",
-    ])
-    registergame!(service, "Niancat", (_state, gameservice) -> NiancatGame(dictionary, gameservice))
-    loadgameinstances!(service)
-
-    context[:service] = service
-end
-
 @given("that we add no instances") do context
     # Nothing to do.
 end

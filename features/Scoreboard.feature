@@ -2,7 +2,7 @@
 Feature: Scoreboard
 
     Background: Setting up a game
-        Given a game of Niancat in the default instance
+        Given a default Niancat service
           And a user Erik in the default team
 
     Scenario: Score a point

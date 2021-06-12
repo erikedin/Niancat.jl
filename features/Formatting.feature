@@ -1,7 +1,7 @@
 Feature: Formatting messages
 
     Background: A Niancat game
-        Given a game of Niancat in the default instance
+        Given a default Niancat service
 
     Scenario: Slack formatting
         Given that the team defaultteam uses Slack formatting in Swedish

@@ -1,7 +1,7 @@
 Feature: Users
 
     Background: A running service
-        Given a game of Niancat in the default instance
+        Given a default Niancat service
 
     Scenario: Display name defaults to user id
         Given a user User1 in the default team
