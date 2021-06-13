@@ -1,5 +1,5 @@
 using Niancat.Games.NiancatGames
-using Niancat.Games.NiancatGames: SetPuzzle, Guess, Incorrect, Correct, Rejected, NewPuzzle, GetPuzzle, PuzzleIs
+using Niancat.Games.NiancatGames: SetPuzzle, Guess, Incorrect, Correct, Rejected, NewPuzzle, GetPuzzle, PuzzleIs, NoPuzzleSet
 using Niancat.Games.NiancatGames: CorrectNotification
 using Niancat.Languages
 

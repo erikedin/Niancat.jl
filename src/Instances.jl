@@ -32,6 +32,12 @@ end
 
 getgame(gi::GameInstances, _gamename::String, _instancename::String) = gi.game
 
-export GameInstances,  getgame, registergame!
+# function newgame!(gi::GameInstances, instancename::String, gamename::String, dictionaryid::String)
+#     description = newgameinstance!(db, )
+#     f = gi.factory[]
+#     gi.game = f(description.state, makegameservice(gi, db, description))
+# end
+
+export GameInstances,  getgame, registergame!, newgame!
 
 end

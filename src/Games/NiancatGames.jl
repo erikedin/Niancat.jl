@@ -77,6 +77,9 @@ mutable struct NiancatGame <: Game
 
         # The first part is the puzzle
         puzzle = stateparts[1]
+        if puzzle == ""
+            puzzle = nothing
+        end
 
         # The second part is the dictionary id. We can use the id to fetch a dictionary
         # from the GameService object.
@@ -85,6 +88,9 @@ mutable struct NiancatGame <: Game
 
         # The third part is the round UUID.
         round = tryparse(UUID, stateparts[3])
+        if round === nothing
+            round = uuid4()
+        end
 
         new(gameservice, round, dictionary, puzzle)
     end

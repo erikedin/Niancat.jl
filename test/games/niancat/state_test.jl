@@ -54,4 +54,19 @@ using UUIDs
         # Assert
         @test gameservice.dictionaryrequests == ["en-00"]
     end
+
+    @testset "State has no puzzle or round; No puzzle is set" begin
+        # Arrange
+        state = "#sv-14#"
+        gameservice = TestingGameService()
+        game = NiancatGame(state, gameservice)
+        team = Team(1, "defaultteam", "")
+        user = User(1, "name", "displayname", team)
+
+        # Act
+        response = gamecommand(game, user, GetPuzzle())
+
+        # Assert
+        @test response == NoPuzzleSet()
+    end
 end

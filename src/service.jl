@@ -45,6 +45,13 @@ end
 loadgameinstances!(svc::NiancatService) = Instances.loadgameinstances!(svc.instances, svc.persistence)
 Instances.registergame!(svc::NiancatService, name::String, factory::Function) = registergame!(svc.instances, name, factory)
 
+# function Instances.newgame!(svc::NiancatService,
+#                             instancename::String,
+#                             gamename::String,
+#                             dictionaryid::String)
+#     newgame!(svc.instances, instancename, gamename, dictionaryid)
+# end
+
 declareinstance!(svc::NiancatService, instancename::String) = Persistence.declareinstance!(svc.persistence, instancename)
 listinstancenames(svc::NiancatService) :: Vector{String} = Persistence.listinstancenames(svc.persistence)
 
