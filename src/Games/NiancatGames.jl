@@ -85,9 +85,11 @@ function Gameface.gamecommand(game::NiancatGame, ::User, setpuzzle::SetPuzzle) :
     end
 
     # Show a solution board to the teams, showing which user solves which word.
+    # Show the scoreboard as well.
     # Only send it if there was a previous round.
     if !isfirstround
         notify!(game.gameservice, SolutionboardNotification(gameinstanceid(game.gameservice), gameround(game)))
+        notify!(game.gameservice, ScoreboardNotification(gameinstanceid(game.gameservice), gameround(game)))
     end
 
     game.puzzle = setpuzzle.puzzle

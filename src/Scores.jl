@@ -124,6 +124,11 @@ struct SolutionboardNotification <: GameNotification
     round::String
 end
 
+struct ScoreboardNotification <: GameNotification
+    instanceid::Int
+    round::String
+end
+
 ##
 ## Formatting
 ##
@@ -147,6 +152,6 @@ end
 ##
 
 export Scoreboard, getscoreboard, record!, Score, UserScore, userscore, hasuser, getsolutionboard
-export SolutionboardNotification
+export SolutionboardNotification, ScoreboardNotification
 
 end
