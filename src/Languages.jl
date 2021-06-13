@@ -1,6 +1,7 @@
 module Languages
 
 using Unicode
+using Niancat.Gameface
 
 struct Word
     w::String
@@ -29,7 +30,7 @@ end
 
 isanagram(s1::String, s2::String) = sortword(s1) == sortword(s2)
 
-struct SwedishDictionary
+struct SwedishDictionary <: LanguageDictionary
     words::Set{Word}
     anagrams::Dict{String, Vector{String}}
 

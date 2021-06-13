@@ -113,6 +113,8 @@ struct InstanceInfo
     name::String
 end
 
+abstract type LanguageDictionary end
+
 """
 GameService is an interface between the games and the service.
 Each game instance has its own GameService object.
@@ -126,16 +128,24 @@ score!(::GameService, ::User, ::Score) = error("Implement score! in GameService 
 notify!(::GameService, ::GameNotification) = error("Implement notify! in GameService subtypes")
 event!(::GameService, ::GameUserEvent) = error("Implement event! for GameUserEvent in GameService subtypes")
 event!(::GameService, ::GameEvent) = error("Implement event! for GameEvent in GameService subtypes")
+finddictionary(::GameService, ::AbstractString) = error("Implement finddictionary in GameService subtypes")
 
+
+##
+## Exports
+##
 
 export Game, Response, NoResponse, gamecommand, gameinstanceid, gameround, Score, GameEventPersistence
 export GameCommand, GameNotification
 export InstanceInfo
 
 # GameService export
-export GameService, score!, notify!
+export GameService, score!, notify!, finddictionary
 
 # Events
 export event!, GameUserEvent, GameEvent
+
+# LanguageDictionary
+export LanguageDictionary
 
 end

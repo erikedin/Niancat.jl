@@ -1,9 +1,9 @@
 module Niancat
 
-include("Languages.jl")
 include("Users.jl")
 include("Http.jl")
 include("Gameface.jl")
+include("Languages.jl")
 include("Formatters.jl")
 include("Persistence.jl")
 include("Scores.jl")

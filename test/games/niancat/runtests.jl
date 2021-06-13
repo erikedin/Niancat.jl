@@ -1,5 +1,5 @@
 using Niancat.Games.NiancatGames
-using Niancat.Games.NiancatGames: SetPuzzle, Guess, Incorrect, Correct, Rejected, NewPuzzle
+using Niancat.Games.NiancatGames: SetPuzzle, Guess, Incorrect, Correct, Rejected, NewPuzzle, GetPuzzle, PuzzleIs
 using Niancat.Games.NiancatGames: CorrectNotification
 using Niancat.Languages
 
@@ -8,4 +8,5 @@ using Niancat.Languages
     include("language_test.jl")
     include("setpuzzle_test.jl")
     include("score_test.jl")
+    include("state_test.jl")
 end

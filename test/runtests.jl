@@ -17,8 +17,9 @@ struct TestingGameService <: GameService
     userevents::Vector{GameUserEvent}
     gameevents::Vector{GameEvent}
     instanceid::Int
+    dictionaryrequests::Vector{String}
 
-    TestingGameService(instanceid::Int = 1) = new([], [], [], [], instanceid)
+    TestingGameService(instanceid::Int = 1) = new([], [], [], [], instanceid, [])
 end
 
 Gameface.score!(tgs::TestingGameService, user::User, score::Score) = push!(tgs.scores, (user, score))
@@ -26,6 +27,10 @@ Gameface.notify!(tgs::TestingGameService, notification::GameNotification) = push
 Gameface.event!(tgs::TestingGameService, event::GameUserEvent) = push!(tgs.userevents, event)
 Gameface.event!(tgs::TestingGameService, event::GameEvent) = push!(tgs.gameevents, event)
 Gameface.gameinstanceid(tgs::TestingGameService) = tgs.instanceid
+function Gameface.finddictionary(tgs::TestingGameService, dictionaryid::AbstractString) :: LanguageDictionary
+    push!(tgs.dictionaryrequests, dictionaryid)
+    SwedishDictionary(["DATORSPEL", "LEDARPOST", "ORDPUSSEL", "PUSSGURKA"])
+end
 
 lastnotification(tgs::TestingGameService) = tgs.notifications[end]
 lastuserevent(tgs::TestingGameService) = tgs.userevents[end]

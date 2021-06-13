@@ -70,6 +70,24 @@ mutable struct NiancatGame <: Game
     puzzle::Union{Nothing, String}
 
     NiancatGame(d::SwedishDictionary, gameservice::GameService) = new(gameservice, uuid4(), d, nothing)
+    function NiancatGame(state::String, gameservice::GameService)
+        # The state looks like
+        #     PUZZLE#dictionary#round
+        stateparts = split(state, '#')
+
+        # The first part is the puzzle
+        puzzle = stateparts[1]
+
+        # The second part is the dictionary id. We can use the id to fetch a dictionary
+        # from the GameService object.
+        dictionaryid = stateparts[2]
+        dictionary = finddictionary(gameservice, dictionaryid)
+
+        # The third part is the round UUID.
+        round = tryparse(UUID, stateparts[3])
+
+        new(gameservice, round, dictionary, puzzle)
+    end
 end
 
 Gameface.gameround(game::NiancatGame) :: String = string(game.round)
