@@ -5,7 +5,7 @@ using Niancat.Scores
 
 column(t::Behavior.Gherkin.DataTable) = [row[1] for row in t]
 
-@when("a solution board notification is sent for the current round") do context
+@when("a solution board notification is sent") do context
     game = context[:game]
     round = gameround(game)
     instanceid = gameinstanceid(game)
@@ -16,6 +16,19 @@ column(t::Behavior.Gherkin.DataTable) = [row[1] for row in t]
     gameservice = game.gameservice
 
     notify!(gameservice, SolutionboardNotification(instanceid, round))
+end
+
+@when("a score board notification is sent") do context
+    game = context[:game]
+    round = gameround(game)
+    instanceid = gameinstanceid(game)
+
+    # Note that this step assumes that the Game instance has a field
+    # `gameservice`, which isn't necessarily the case always.
+    # Should we create a getter for gameservice?
+    gameservice = game.gameservice
+
+    notify!(gameservice, ScoreboardNotification(instanceid, round))
 end
 
 @then("a notification is sent, containing words") do context

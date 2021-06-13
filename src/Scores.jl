@@ -132,6 +132,7 @@ end
 ##
 ## Formatting
 ##
+
 function formatsolution(word::String, users::Vector{User}) :: String
     usertext = join(["$(u)" for u in users], ",")
     # TODO This should technically be done in the language module.
@@ -139,12 +140,18 @@ function formatsolution(word::String, users::Vector{User}) :: String
     "$(wordtext): $(usertext)"
 end
 
-function Formatters.format(::SlackFormatter, board::Solutionboard)
+function Formatters.format(::SlackFormatter, board::Solutionboard) :: String
     solutions = [
         formatsolution(word, users)
         for (word, users) in board.solutions
     ]
     join(solutions, "\n")
+end
+
+function Formatters.format(::SlackFormatter, board::Scoreboard) :: String
+    userscoreformat = (user, score) -> "$(user): $(score)"
+    scorestexts = [userscoreformat(user, score) for (user, score) in board.scores]
+    join(scorestexts, "\n")
 end
 
 ##

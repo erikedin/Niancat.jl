@@ -37,8 +37,24 @@ function Gameface.notify!(g::ConcreteGameService, notif::GameNotification)
     notifytext!(g, text)
 end
 
+# SolutionboardNotifications only carry instructions that allow ConcreteGameService to
+# find all the actual information that should be included in the notification.
+# So instead of showing the notification itself, we fetch a solution board and show that.
 function Gameface.notify!(g::ConcreteGameService, notif::SolutionboardNotification)
     board = getsolutionboard(g.persistence, notif.instanceid, notif.round)
+
+    # TODO A real implementation should get the formatter for each team
+    #      and format the notification accordingly.
+    #      This skeleton implementation just uses a SlackFormatter.
+
+    formatter = SlackFormatter()
+    text = format(formatter, board)
+
+    notifytext!(g, text)
+end
+
+function Gameface.notify!(g::ConcreteGameService, notif::ScoreboardNotification)
+    board = getscoreboard(g.persistence, notif.instanceid, notif.round)
 
     # TODO A real implementation should get the formatter for each team
     #      and format the notification accordingly.
