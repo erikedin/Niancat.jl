@@ -1,6 +1,7 @@
 using Behavior
 using Niancat
 using Niancat.Http
+using Behavior.Gherkin
 import Niancat.Http: post
 using SQLite
 
@@ -21,6 +22,8 @@ Http.post(c::FakeHttpClient, uri::String, body::String) = push!(c.posts, (uri, b
 ## This is a place for common steps that are used by many features in
 ## in the Background section.
 ##
+
+column(t::Behavior.Gherkin.DataTable) = [row[1] for row in t]
 
 @given("a default Niancat service") do context
     sqlitedb = SQLite.DB()
@@ -45,3 +48,23 @@ Http.post(c::FakeHttpClient, uri::String, body::String) = push!(c.posts, (uri, b
     context[:dictionary] = niancat.dictionary
 end
 
+
+@given("a game service") do context
+    sqlitedb = SQLite.DB()
+    httpclient = FakeHttpClient()
+    service = NiancatService(sqlitedb, httpclient=httpclient)
+
+    registergame!(service, "Niancat", "#sv-14#", (state, gameservice) -> NiancatGame(state, gameservice))
+    loadgameinstances!(service)
+
+    newgame!(service, "defaultinstance", "Niancat")
+
+    niancat = getgame(service.instances, "Niancat", "defaultinstance")
+    context[:game] = niancat
+    context[:gameservice] = niancat.gameservice
+end
+
+@given("a dictionary \"sv-14\" with words") do context
+    words = column(context.datatable)
+    @fail "Implement me"
+end
