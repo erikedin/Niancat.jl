@@ -176,4 +176,40 @@
         # Assert
         @test response isa NewPuzzle
     end
+
+    @testset "Puzzle is PUSSGUKRA; Setting a new puzzle DATORSPLE; A solution board notification is sent" begin
+        # Arrange
+        gameservice = TestingGameService()
+        dictionary = SwedishDictionary(["PUSSGURKA", "DATORSPEL"])
+        game = NiancatGame(dictionary, gameservice)
+        team = Team(1, "defaultteam", "")
+        user = User(1, "name", "displayname", team)
+        gamecommand(game, user, SetPuzzle("PUSSGRUKA"))
+        instanceid = gameinstanceid(game)
+        round = gameround(game)
+
+        # Act
+        response = gamecommand(game, user, SetPuzzle("DATORSPLE"))
+        # Precondition: Response is a NewPuzzle
+        @test response isa NewPuzzle
+
+        # Assert
+        @test length(gameservice.notifications) != 0
+        @test SolutionboardNotification(instanceid, round) in gameservice.notifications
+    end
+
+    @testset "No puzzle is set; Setting a new puzzle DATORSPLE; No solution board notification is sent" begin
+        # Arrange
+        gameservice = TestingGameService()
+        dictionary = SwedishDictionary(["PUSSGURKA", "DATORSPEL"])
+        game = NiancatGame(dictionary, gameservice)
+        team = Team(1, "defaultteam", "")
+        user = User(1, "name", "displayname", team)
+
+        # Act
+        gamecommand(game, user, SetPuzzle("DATORSPLE"))
+
+        # Assert
+        @test !any(x -> x isa SolutionboardNotification, gameservice.notifications)
+    end
 end

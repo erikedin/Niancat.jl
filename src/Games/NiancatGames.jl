@@ -75,19 +75,28 @@ end
 Gameface.gameround(game::NiancatGame) :: String = string(game.round)
 
 function Gameface.gamecommand(game::NiancatGame, ::User, setpuzzle::SetPuzzle) :: Response
-    if game.puzzle !== nothing && isanagram(game.puzzle, setpuzzle.puzzle)
+    isfirstround = game.puzzle === nothing
+    if !isfirstround && isanagram(game.puzzle, setpuzzle.puzzle)
         return Rejected()
     end
     solutions = findanagrams(game.dictionary, setpuzzle.puzzle)
     if solutions == []
         return Rejected()
     end
+
+    # Show a solution board to the teams, showing which user solves which word.
+    # Only send it if there was a previous round.
+    if !isfirstround
+        notify!(game.gameservice, SolutionboardNotification(gameinstanceid(game.gameservice), gameround(game)))
+    end
+
     game.puzzle = setpuzzle.puzzle
     game.round = uuid4()
 
     for solution in solutions
         event!(game.gameservice, GameEvent(Gameface.GameEvent_Solution, string(game.round), solution))
     end
+
     NewPuzzle(game.puzzle)
 end
 
