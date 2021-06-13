@@ -27,20 +27,10 @@ Http.post(c::FakeHttpClient, uri::String, body::String) = push!(c.posts, (uri, b
     httpclient = FakeHttpClient()
     service = NiancatService(sqlitedb, httpclient=httpclient)
 
-    # TODO This ought to be done by other means as soon
-    #      as those means exist.
-    # Load the default Niancat.
-    dictionary = SwedishDictionary([
-        "DATORSPEL",
-        "LEDARPOST",
-        "ORDPUSSEL",
-        "PUSSGURKA",
-    ])
-    registergame!(service, "Niancat", (_state, gameservice) -> NiancatGame(dictionary, gameservice))
-    # registergame!(service, "Niancat", "#sv-14#", (state, gameservice) -> NiancatGame(state, gameservice))
+    registergame!(service, "Niancat", "#sv-14#", (state, gameservice) -> NiancatGame(state, gameservice))
     loadgameinstances!(service)
 
-    # newgame!(service, "defaultinstance", "Niancat", "sv-14")
+    newgame!(service, "defaultinstance", "Niancat")
 
     # Set a fake notification endpoint for the default team
     endpoint_url = "https://niancat.test/notification"
@@ -49,9 +39,9 @@ Http.post(c::FakeHttpClient, uri::String, body::String) = push!(c.posts, (uri, b
     context[:service] = service
     context[:httpclient] = httpclient
     context[:db] = service.persistence
-    context[:dictionary] = dictionary
 
     niancat = getgame(service.instances, "Niancat", "defaultinstance")
     context[:game] = niancat
+    context[:dictionary] = niancat.dictionary
 end
 

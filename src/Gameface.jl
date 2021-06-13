@@ -128,7 +128,7 @@ score!(::GameService, ::User, ::Score) = error("Implement score! in GameService 
 notify!(::GameService, ::GameNotification) = error("Implement notify! in GameService subtypes")
 event!(::GameService, ::GameUserEvent) = error("Implement event! for GameUserEvent in GameService subtypes")
 event!(::GameService, ::GameEvent) = error("Implement event! for GameEvent in GameService subtypes")
-finddictionary(::GameService, ::AbstractString) = error("Implement finddictionary in GameService subtypes")
+finddictionary(::GameService, ::AbstractString) :: LanguageDictionary = error("Implement finddictionary in GameService subtypes")
 
 
 ##

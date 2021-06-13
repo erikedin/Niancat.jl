@@ -6,7 +6,8 @@ using Niancat.Http
 using Niancat.Users
 using Niancat.Scores
 using Niancat.Formatters
-import Niancat.Gameface: score!, gameinstanceid, notify!, event!
+using Niancat.Languages
+import Niancat.Gameface: score!, gameinstanceid, notify!, event!, finddictionary
 
 """
 ConcreteGameService is merely the implementation of the `GameService` interface.
@@ -64,6 +65,15 @@ function Gameface.notify!(g::ConcreteGameService, notif::ScoreboardNotification)
     text = format(formatter, board)
 
     notifytext!(g, text)
+end
+
+function Gameface.finddictionary(g::ConcreteGameService, dictionaryid::AbstractString) :: LanguageDictionary
+    SwedishDictionary([
+        "DATORSPEL",
+        "LEDARPOST",
+        "PUSSGURKA",
+        "ORDPUSSEL"
+    ])
 end
 
 function Gameface.event!(g::ConcreteGameService, event::GameUserEvent)

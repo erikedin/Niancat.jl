@@ -53,6 +53,36 @@ function getgameinstances(persistence::GamePersistence) :: Vector{GameInstanceDe
     [GameInstanceDescription(row) for row in results]
 end
 
+function newgameinstance!(persistence::GamePersistence, instancename::String, gamename::String, initialstate::String)
+    sql = """
+        INSERT INTO gameinstances
+            (game_id, instance_id, game_state)
+        VALUES (
+            (SELECT game_id FROM games WHERE game_name = ?),
+            (SELECT instance_id FROM instances WHERE instance_name = ?),
+            ?
+        )
+    """
+    DBInterface.execute(persistence.db, sql, (gamename, instancename, initialstate))
+    game_instance_id = SQLite.last_insert_rowid(persistence.db)
+
+    readback_sql = """
+        SELECT
+            instances.instance_id, instances.instance_name,
+            games.game_name,
+            gameinstances.game_state,
+            gameinstances.game_instance_id
+        FROM gameinstances
+            JOIN games ON gameinstances.game_id = games.game_id
+            JOIN instances ON gameinstances.instance_id = instances.instance_id
+        WHERE gameinstances.game_instance_id = ? 
+    """
+    results = DBInterface.execute(persistence.db, readback_sql, (game_instance_id, ))
+    row = first(results)
+
+    GameInstanceDescription(row)
+end
+
 function getuser(persistence::GamePersistence, userid::String, teamname::String) :: User
     sql = """
     INSERT OR IGNORE INTO users
@@ -159,6 +189,6 @@ end
 
 export GamePersistence, GameInstanceDescription, getgameinstances, getuser, initializedatabase!
 export updatenotificationendpoint!, getnotificationendpoints, recordevent!
-export updatedisplayname!
+export updatedisplayname!, newgameinstance!
 
 end

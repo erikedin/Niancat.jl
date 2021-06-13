@@ -44,16 +44,7 @@ end
     sqlitedb = SQLite.DB(databasefile)
     service = NiancatService(sqlitedb)
 
-    # TODO This ought to be done by other means as soon
-    #      as those means exist.
-    # Load the default Niancat.
-    dictionary = SwedishDictionary([
-        "DATORSPEL",
-        "LEDARPOST",
-        "ORDPUSSEL",
-        "PUSSGURKA",
-    ])
-    registergame!(service, "Niancat", (_state, gameservice) -> NiancatGame(dictionary, gameservice))
+    registergame!(service, "Niancat", "#sv-14#", (state, gameservice) -> NiancatGame(state, gameservice))
     loadgameinstances!(service)
 
     context[:service] = service
@@ -80,17 +71,10 @@ end
     sqlitedb = SQLite.DB(databasefile)
     service = NiancatService(sqlitedb)
 
-    # TODO This ought to be done by other means as soon
-    #      as those means exist.
-    # Load the default Niancat.
-    dictionary = SwedishDictionary([
-        "DATORSPEL",
-        "LEDARPOST",
-        "ORDPUSSEL",
-        "PUSSGURKA",
-    ])
-    registergame!(service, "Niancat", (_state, gameservice) -> NiancatGame(dictionary, gameservice))
+    registergame!(service, "Niancat", "#sv-14#", (state, gameservice) -> NiancatGame(state, gameservice))
     loadgameinstances!(service)
+    
+    newgame!(service, "defaultinstance", "Niancat")
 
     context[:service] = service
 end

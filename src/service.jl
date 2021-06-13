@@ -24,7 +24,8 @@ struct NiancatService
         if isempty(tables)
             Persistence.initializedatabase!(db)
         end
-        new(GamePersistence(db), GameInstances(httpclient))
+        persistence = GamePersistence(db)
+        new(persistence, GameInstances(httpclient, persistence))
     end
 end
 
@@ -42,15 +43,14 @@ function findcommand(svc::NiancatService, user::User, command::String) :: Tuple{
     end
 end
 
-loadgameinstances!(svc::NiancatService) = Instances.loadgameinstances!(svc.instances, svc.persistence)
-Instances.registergame!(svc::NiancatService, name::String, factory::Function) = registergame!(svc.instances, name, factory)
+loadgameinstances!(svc::NiancatService) = Instances.loadgameinstances!(svc.instances)
+Instances.registergame!(svc::NiancatService, name::String, initialstate::String, factory::Function) = registergame!(svc.instances, name, initialstate, factory)
 
-# function Instances.newgame!(svc::NiancatService,
-#                             instancename::String,
-#                             gamename::String,
-#                             dictionaryid::String)
-#     newgame!(svc.instances, instancename, gamename, dictionaryid)
-# end
+function Instances.newgame!(svc::NiancatService,
+                            instancename::String,
+                            gamename::String)
+    newgame!(svc.instances, instancename, gamename)
+end
 
 declareinstance!(svc::NiancatService, instancename::String) = Persistence.declareinstance!(svc.persistence, instancename)
 listinstancenames(svc::NiancatService) :: Vector{String} = Persistence.listinstancenames(svc.persistence)
@@ -68,6 +68,6 @@ updateformatting!(svc::NiancatService, teamname::AbstractString, formattername::
 
 getformatter(svc::NiancatService, teamname::AbstractString) :: Formatter = SlackFormatter()
 
-export NiancatService, findcommand, loadgameinstances!, declareinstance!, listinstancenames
+export NiancatService, findcommand, loadgameinstances!, declareinstance!, listinstancenames, newgame!
 export getuser, updateteamendpoint!, updatedisplayname!
 export updateformatting!, getformatter

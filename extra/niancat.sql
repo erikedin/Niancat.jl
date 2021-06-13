@@ -43,11 +43,6 @@ CREATE TABLE gameinstances
     UNIQUE(game_id, instance_id)
 );
 
-INSERT INTO gameinstances
-    (game_instance_id, game_id, instance_id, game_state)
-VALUES
-    (1, 1, 1, "");
-
 CREATE TABLE users
 (
     user_id         INTEGER PRIMARY KEY,
