@@ -137,7 +137,7 @@ function formatsolution(word::String, users::Vector{User}) :: String
     usertext = join(["$(u)" for u in users], ",")
     # TODO This should technically be done in the language module.
     wordtext = uppercase(word)
-    "$(wordtext): $(usertext)"
+    "*$(wordtext)*: $(usertext)"
 end
 
 function Formatters.format(::SlackFormatter, board::Solutionboard) :: String
@@ -145,13 +145,15 @@ function Formatters.format(::SlackFormatter, board::Solutionboard) :: String
         formatsolution(word, users)
         for (word, users) in board.solutions
     ]
-    join(solutions, "\n")
+    headers = ["*Lösningar*"]
+    join(vcat(headers, solutions), "\n")
 end
 
 function Formatters.format(::SlackFormatter, board::Scoreboard) :: String
     userscoreformat = (user, score) -> "$(user): $(score)"
     scorestexts = [userscoreformat(user, score) for (user, score) in board.scores]
-    join(scorestexts, "\n")
+    headers = ["*Poäng:*"]
+    join(vcat(headers, scorestexts), "\n")
 end
 
 ##
